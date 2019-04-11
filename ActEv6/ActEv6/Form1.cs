@@ -70,11 +70,15 @@ namespace ActEv6
 
         private void CargarListaUsuarios()
         {
-            string seleccion = "Select * from usuarios";
+            string consulta = "Select * from usuarios";
+            List<Usuario> usuarios;
             if (bdactevalu.AbrirConexion())
             {
-                txtInformacion.Text = Usuario.BuscarUsuario(bdactevalu.Conexion, seleccion);
+                usuarios = Usuario.BuscarUsuario(bdactevalu.Conexion,consulta);
                 bdactevalu.CerrarConexion();
+                for(int i =0;i<usuarios.Count();i++){
+                    
+                }
             }
             else
             {
@@ -82,5 +86,10 @@ namespace ActEv6
             }
         }
 
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            this.Dispose();
+        }
     }
 }

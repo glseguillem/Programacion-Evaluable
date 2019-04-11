@@ -39,6 +39,7 @@
             this.btnSalida = new System.Windows.Forms.Button();
             this.txtNif = new System.Windows.Forms.TextBox();
             this.txtInformacion = new System.Windows.Forms.TextBox();
+            this.btnCerrar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnEntrada
@@ -145,11 +146,22 @@
             this.txtInformacion.Size = new System.Drawing.Size(698, 249);
             this.txtInformacion.TabIndex = 9;
             // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Image = global::ActEv6.Properties.Resources.cancelar;
+            this.btnCerrar.Location = new System.Drawing.Point(12, 391);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(36, 43);
+            this.btnCerrar.TabIndex = 0;
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
             // frmBasico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.txtInformacion);
             this.Controls.Add(this.txtNif);
             this.Controls.Add(this.btnSalida);
@@ -181,6 +193,7 @@
         private System.Windows.Forms.Button btnSalida;
         private System.Windows.Forms.TextBox txtNif;
         private System.Windows.Forms.TextBox txtInformacion;
+        private System.Windows.Forms.Button btnCerrar;
     }
 }
 

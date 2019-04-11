@@ -41,9 +41,9 @@ namespace ActEv6
         public Usuario()
         {
         }
-        //List <Usuario> usu = new List <Usuario>();
 
 
+        //List<Usuario> usu = new List<Usuario>();
 
 
 
@@ -85,25 +85,20 @@ namespace ActEv6
         public static List<Usuario> BuscarUsuario(MySqlConnection conexion, string consulta)
         {
             List<Usuario> lista = new List<Usuario>();
-            // MessageBox.Show(consulta);   -Se puede activar esta línea para testear la sintaxis de la consulta.
 
-            // Creamos el objeto command al cual le pasamos la consulta y la conexión
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
-            // Ejecutamos el comando y recibimos en un objeto DataReader la lista de registros seleccionados.
-            // Recordemos que un objeto DataReader es una especie de tabla de datos virtual.
+
             MySqlDataReader reader = comando.ExecuteReader();
 
-            if (reader.HasRows)   // En caso que se hayan registros en el objeto reader
+            if (reader.HasRows)
             {
-                // Recorremos el reader (registro por registro) y cargamos la lista de usuarios.
                 while (reader.Read())
                 {
-                    Usuario user = new Usuario(reader.GetInt16(0), reader.GetString(1), reader.GetString(2),
-                        reader.GetString(3), reader.GetInt16(4), Convert.ToDateTime(reader.GetDateTime(5)), reader.GetDecimal(6));
+                    Usuario user = new Usuario(reader.GetString(0), reader.GetString(1), reader.GetString(2),
+                        reader.GetBoolean(3));
                     lista.Add(user);
                 }
             }
-            // devolvemos la lista cargada con los usuarios.
             return lista;
         }
     }

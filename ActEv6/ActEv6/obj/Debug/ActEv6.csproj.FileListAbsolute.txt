@@ -22,10 +22,10 @@ C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\bin\Debug\MySql.D
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\bin\Debug\Google.Protobuf.dll
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\bin\Debug\MySql.Data.xml
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.csprojAssemblyReference.cache
-C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.Form1.resources
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.Properties.Resources.resources
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.GenerateResource.cache
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.CoreCompileInputs.cache
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.CopyComplete
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.exe
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.pdb
+C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.frmBasico.resources
