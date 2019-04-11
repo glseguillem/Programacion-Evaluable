@@ -1,6 +1,6 @@
 ﻿namespace ActEv6
 {
-    partial class Form1
+    partial class frmBasico
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -39,7 +39,6 @@
             this.btnSalida = new System.Windows.Forms.Button();
             this.txtNif = new System.Windows.Forms.TextBox();
             this.txtInformacion = new System.Windows.Forms.TextBox();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.SuspendLayout();
             // 
             // btnEntrada
@@ -146,19 +145,11 @@
             this.txtInformacion.Size = new System.Drawing.Size(698, 249);
             this.txtInformacion.TabIndex = 9;
             // 
-            // vScrollBar1
-            // 
-            this.vScrollBar1.Location = new System.Drawing.Point(745, 129);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 249);
-            this.vScrollBar1.TabIndex = 10;
-            // 
-            // Form1
+            // frmBasico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.txtInformacion);
             this.Controls.Add(this.txtNif);
             this.Controls.Add(this.btnSalida);
@@ -168,8 +159,10 @@
             this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.lblHora);
             this.Controls.Add(this.btnEntrada);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.KeyPreview = true;
+            this.Name = "frmBasico";
+            this.Text = "Formulario Basico";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -188,7 +181,6 @@
         private System.Windows.Forms.Button btnSalida;
         private System.Windows.Forms.TextBox txtNif;
         private System.Windows.Forms.TextBox txtInformacion;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
     }
 }
 

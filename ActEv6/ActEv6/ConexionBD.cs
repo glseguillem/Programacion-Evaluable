@@ -24,7 +24,7 @@ namespace ActEv6
             // Conexión Local
             string server = "server=127.0.0.1;";
             string port = "port=3306;";
-            string database = "database=;";
+            string database = "database=bdactevalu;";
             string usuario = "uid=root;";
             string password = "pwd=;";
             string convert = "Convert Zero Datetime=True;";
