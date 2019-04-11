@@ -1,0 +1,17 @@
+E:\ActEv6\ActEv6\bin\Debug\ActEv6.exe.config
+E:\ActEv6\ActEv6\bin\Debug\ActEv6.exe
+E:\ActEv6\ActEv6\bin\Debug\ActEv6.pdb
+E:\ActEv6\ActEv6\obj\Debug\ActEv6.csprojAssemblyReference.cache
+E:\ActEv6\ActEv6\obj\Debug\ActEv6.Form1.resources
+E:\ActEv6\ActEv6\obj\Debug\ActEv6.Properties.Resources.resources
+E:\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.GenerateResource.cache
+E:\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.CoreCompileInputs.cache
+E:\ActEv6\ActEv6\obj\Debug\ActEv6.exe
+E:\ActEv6\ActEv6\obj\Debug\ActEv6.pdb
+F:\ActEv6\ActEv6\obj\Debug\ActEv6.csprojAssemblyReference.cache
+F:\ActEv6\ActEv6\obj\Debug\ActEv6.Form1.resources
+F:\ActEv6\ActEv6\obj\Debug\ActEv6.Properties.Resources.resources
+F:\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.GenerateResource.cache
+F:\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.CoreCompileInputs.cache
+F:\ActEv6\ActEv6\obj\Debug\ActEv6.exe
+F:\ActEv6\ActEv6\obj\Debug\ActEv6.pdb
