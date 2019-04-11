@@ -10,9 +10,11 @@ using System.Windows.Forms;
 
 namespace ActEv6
 {
-    public partial class Form1 : Form
+    public partial class frmBasico : Form
     {
-        public Form1()
+        ConexionBD bdactevalu = new ConexionBD();
+
+        public frmBasico()
         {
             InitializeComponent();
         }
@@ -50,7 +52,7 @@ namespace ActEv6
 
         private void btnPresencia_Click(object sender, EventArgs e)
         {
-
+            CargarListaUsuarios();
         }
 
         private void btnPermanencia_Click(object sender, EventArgs e)
@@ -62,51 +64,23 @@ namespace ActEv6
         {
             //if (ComprobarLetraNif(txtNif.Text))
             //{
-                
+
             //}
         }
 
-        private bool ComprobarLetraNif(string nif)
+        private void CargarListaUsuarios()
         {
-            if (nif.Length==9)
+            string seleccion = "Select * from usuarios";
+            if (bdactevalu.AbrirConexion())
             {
-                string nifAux = "";
-                int numerosNif;
-                
-                string letras = "TRWAGMYFPDXBNJZSQVHLCKE";
-
-                for (int i = 0; i < 7; i++)
-                {
-                    nifAux += nif[i];
-                }
-
-                try
-                {
-                    numerosNif = Convert.ToInt16(nifAux);
-                    if (letras[numerosNif % 23]==nif[8])
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("La letra del NIF es incorrecta");
-                    }
-                    
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("NIF incorrecto");
-                    
-                    throw;
-                }
+                txtInformacion.Text = Usuario.BuscarUsuario(bdactevalu.Conexion, seleccion);
+                bdactevalu.CerrarConexion();
             }
             else
             {
-                MessageBox.Show("El NIF debe tener 9 carácteres");
+                MessageBox.Show("No se ha podido abrir la conexión con la Base de Datos");
             }
-            return false;
-
-            
         }
+
     }
 }
