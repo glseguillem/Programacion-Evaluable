@@ -38,9 +38,7 @@ namespace ActEv6
 
         private void btnEntrada_Click(object sender, EventArgs e)
         {
-            //if (ComprobarLetraNif(txtNif.Text)){
-
-            //}
+            string consulta = string.Format("INSERT INTO fichajes() ");
         }
 
         private void btnSalida_Click(object sender, EventArgs e)
@@ -52,7 +50,7 @@ namespace ActEv6
 
         private void btnPresencia_Click(object sender, EventArgs e)
         {
-            ListaUsuarios();
+            
         }
 
         private void btnPermanencia_Click(object sender, EventArgs e)
@@ -66,20 +64,6 @@ namespace ActEv6
             mantenimiento.ShowDialog();
         }
 
-        private void ListaUsuarios()
-        {
-            string consulta = "Select * from usuarios";
-            List<Usuario> usuarios;
-            if (bdactevalu.AbrirConexion())
-            {
-                usuarios = Usuario.BuscaUsuario (bdactevalu.Conexion,consulta);
-                bdactevalu.CerrarConexion();
-            }
-            else
-            {
-                MessageBox.Show("No se puede abrir la Base de Datos");
-            }
-        }
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {

@@ -79,11 +79,11 @@ namespace ActEv6
 
         }
 
-        public static List<Usuario> BuscaUsuario (MySqlConnection conexion, string consulta)
+        public static List<Usuario> BuscaUsuario (MySqlConnection Conexion, string consulta)
         {
             List<Usuario> lista = new List<Usuario>();
 
-            MySqlCommand comando = new MySqlCommand(consulta, conexion);
+            MySqlCommand comando = new MySqlCommand(consulta, Conexion);
 
             MySqlDataReader reader = comando.ExecuteReader();
 
@@ -96,30 +96,33 @@ namespace ActEv6
                     lista.Add(user);
                 }
             }
+            reader.Close();
             return lista;
         }
 
-        public static void AñadirUsuario(MySqlConnection conexion, Usuario usu)
+        public static int AñadirUsuario(MySqlConnection conexion, Usuario usu)
         {
+            int resultado;
             string consulta;
             if (usu.administrador)
             {
-                consulta = string.Format("INSERT INTO empleados NIF,nombre,apellido,administrador,claveAdmin " +
+                consulta = string.Format("INSERT INTO empleados (NIF,nombre,apellido,administrador,claveAdmin) " +
                     "VALUES ('{0}','{1}','{2}','{3}','{4}');", usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador, usu.ContrasenyaAdministrador);
             }
             else
             {
-                consulta = string.Format("INSERT INTO empleados NIF,nombre,apellido,administrador " +
+                consulta = string.Format("INSERT INTO empleados (NIF,nombre,apellido,administrador) " +
                     "VALUES ('{0}','{1}','{2}','{3}');", usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador);
             }
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
-            comando.ExecuteNonQuery();
+            resultado=comando.ExecuteNonQuery();
+            return resultado;
         }
 
-        public static int EliminaUsuario(MySqlConnection conexion, int persona)
+        public static int EliminaUsuario(MySqlConnection conexion, string persona)
         {
             int retorno;
-            string consulta = string.Format("DELETE FROM usuarios WHERE id={0}", persona);
+            string consulta = string.Format("DELETE FROM empleados WHERE NIF LIKE ('{0}');", persona);
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             retorno = comando.ExecuteNonQuery();
             return retorno;

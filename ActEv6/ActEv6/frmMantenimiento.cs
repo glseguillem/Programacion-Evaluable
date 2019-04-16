@@ -17,6 +17,7 @@ namespace ActEv6
         public frmMantenimiento()
         {
             InitializeComponent();
+            ListaUsuarios();
         }
 
 
@@ -77,18 +78,19 @@ namespace ActEv6
             
         }
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+        private void btnAgregar_Click(object sender, EventArgs e)//falta comprobar errores
         {
             try
             {
                 if (bdactevalu.AbrirConexion())
                 {
-                    string consulta = string.Format("SELECT * FROM empleados WHERE nombre LIKE ('{0}') and apellido=('{1}');"
+                    string consulta = string.Format("SELECT * FROM empleados WHERE nombre LIKE ('{0}') and apellido LIKE ('{1}');"
                         , txtNombre.Text, txtApellido.Text);
                     if (Usuario.BuscaUsuario(bdactevalu.Conexion, consulta).Count == 0)
                     {
                         Usuario usu = new Usuario(txtNIF.Text,txtNombre.Text,txtApellido.Text,chkAdmin.Checked,txtClave.Text);
                         Usuario.AñadirUsuario(bdactevalu.Conexion, usu);
+                        ListaUsuarios();
                     }
                     else
                     {
@@ -103,7 +105,7 @@ namespace ActEv6
             }
         }
 
-        private void bntEliminar_Click(object sender, EventArgs e)
+        private void bntEliminar_Click(object sender, EventArgs e)//No funciona, preguntar a salva
         {
             try
             {
@@ -111,7 +113,7 @@ namespace ActEv6
 
                 if (dtgUsuarios.SelectedRows.Count == 1)
                 {
-                    int id = (int)dtgUsuarios.CurrentRow.Cells[0].Value;
+                    string nif = (string)dtgUsuarios.CurrentRow.Cells[0].Value;
 
                     DialogResult eliminacion = MessageBox.Show("¿Estas seguro que quieres borrar?",
                                                 "Eliminación", MessageBoxButtons.YesNo);
@@ -120,16 +122,12 @@ namespace ActEv6
                     {
                         if (bdactevalu.AbrirConexion())
                         {
-                            resultado = Usuario.EliminaUsuario(bdactevalu.Conexion,id);
+                            resultado = Usuario.EliminaUsuario(bdactevalu.Conexion,nif);
                         }
                         else
                         {
                             MessageBox.Show("No se puede abrir la Base de Datos");
                         }
-                        
-                        bdactevalu.CerrarConexion();
-
-                        ListaUsuarios();
                     }
                 }
 
@@ -138,11 +136,16 @@ namespace ActEv6
             {
                 MessageBox.Show(ex.Message);
             }
+            finally
+            {
+                bdactevalu.CerrarConexion();
+            }
         }
 
         private void btnInformes_Click(object sender, EventArgs e)
         {
-
+            ListaUsuarios();
+            ListaFichaje();
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -153,17 +156,42 @@ namespace ActEv6
 
         private void ListaUsuarios()
         {
-            string consulta = "Select * from usuarios";
+            string consulta = "Select * from empleados;";
             List<Usuario> usuarios;
             if (bdactevalu.AbrirConexion())
             {
                 usuarios = Usuario.BuscaUsuario(bdactevalu.Conexion, consulta);
-                bdactevalu.CerrarConexion();
+                dtgUsuarios.DataSource = usuarios;
             }
             else
             {
                 MessageBox.Show("No se puede abrir la Base de Datos");
             }
+            bdactevalu.CerrarConexion();
         }
+
+        private void ListaFichaje()
+        {
+            string consulta = "Select * from fichajes;";
+            List<Usuario> usuarios;
+            if (bdactevalu.AbrirConexion())
+            {
+                usuarios = Usuario.BuscaUsuario(bdactevalu.Conexion, consulta);
+                dtgFichajes.DataSource = usuarios;
+            }
+            else
+            {
+                MessageBox.Show("No se puede abrir la Base de Datos");
+            }
+            bdactevalu.CerrarConexion();
+        }
+
+        private void MostrarTexto (Usuario usu)
+        {
+            dtgUsuarios.Rows.Add(usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador,usu.ContrasenyaAdministrador);
+            dtgFichajes.Rows.Add(usu.Nif);
+
+        }
+
     }
 }
