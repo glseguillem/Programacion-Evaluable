@@ -52,7 +52,7 @@ namespace ActEv6
 
         private void btnPresencia_Click(object sender, EventArgs e)
         {
-            CargarListaUsuarios();
+            ListaUsuarios();
         }
 
         private void btnPermanencia_Click(object sender, EventArgs e)
@@ -62,27 +62,22 @@ namespace ActEv6
 
         private void btnMantenimiento_Click(object sender, EventArgs e)
         {
-            //if (ComprobarLetraNif(txtNif.Text))
-            //{
-
-            //}
+            frmMantenimiento mantenimiento = new frmMantenimiento();
+            mantenimiento.ShowDialog();
         }
 
-        private void CargarListaUsuarios()
+        private void ListaUsuarios()
         {
             string consulta = "Select * from usuarios";
             List<Usuario> usuarios;
             if (bdactevalu.AbrirConexion())
             {
-                usuarios = Usuario.BuscarUsuario(bdactevalu.Conexion,consulta);
+                usuarios = Usuario.BuscaUsuario (bdactevalu.Conexion,consulta);
                 bdactevalu.CerrarConexion();
-                for(int i =0;i<usuarios.Count();i++){
-                    
-                }
             }
             else
             {
-                MessageBox.Show("No se ha podido abrir la conexión con la Base de Datos");
+                MessageBox.Show("No se puede abrir la Base de Datos");
             }
         }
 

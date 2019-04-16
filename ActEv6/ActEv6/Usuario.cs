@@ -42,10 +42,7 @@ namespace ActEv6
         {
         }
 
-
-        //List<Usuario> usu = new List<Usuario>();
-
-
+        
 
         private static bool ComprobarLetraNif(string nif)
         {
@@ -82,7 +79,7 @@ namespace ActEv6
 
         }
 
-        public static List<Usuario> BuscarUsuario(MySqlConnection conexion, string consulta)
+        public static List<Usuario> BuscaUsuario (MySqlConnection conexion, string consulta)
         {
             List<Usuario> lista = new List<Usuario>();
 
@@ -100,6 +97,32 @@ namespace ActEv6
                 }
             }
             return lista;
+        }
+
+        public static void AñadirUsuario(MySqlConnection conexion, Usuario usu)
+        {
+            string consulta;
+            if (usu.administrador)
+            {
+                consulta = string.Format("INSERT INTO empleados NIF,nombre,apellido,administrador,claveAdmin " +
+                    "VALUES ('{0}','{1}','{2}','{3}','{4}');", usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador, usu.ContrasenyaAdministrador);
+            }
+            else
+            {
+                consulta = string.Format("INSERT INTO empleados NIF,nombre,apellido,administrador " +
+                    "VALUES ('{0}','{1}','{2}','{3}');", usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador);
+            }
+            MySqlCommand comando = new MySqlCommand(consulta, conexion);
+            comando.ExecuteNonQuery();
+        }
+
+        public static int EliminaUsuario(MySqlConnection conexion, int persona)
+        {
+            int retorno;
+            string consulta = string.Format("DELETE FROM usuarios WHERE id={0}", persona);
+            MySqlCommand comando = new MySqlCommand(consulta, conexion);
+            retorno = comando.ExecuteNonQuery();
+            return retorno;
         }
     }
 }

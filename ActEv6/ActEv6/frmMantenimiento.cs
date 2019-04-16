@@ -79,63 +79,65 @@ namespace ActEv6
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            int resultado = 0;
-
             try
             {
                 if (bdactevalu.AbrirConexion())
                 {
-                    Usuario usu = new Usuario();
-                    usu.Nombre = txtNombre.Text;
-                    usu.Apellidos = txtApellidos.Text;
-                    
-                    
-                    
-
-                    if (String.IsNullOrEmpty(txtIdentidad.Text))
+                    string consulta = string.Format("SELECT * FROM empleados WHERE nombre LIKE ('{0}') and apellido=('{1}');"
+                        , txtNombre.Text, txtApellido.Text);
+                    if (Usuario.BuscaUsuario(bdactevalu.Conexion, consulta).Count == 0)
                     {
-                        if (usu.YaEsta(bdactevalu.Conexion, usu.Nombre, usu.Apellidos))
-                        {
-                            MessageBox.Show("Este usuario no se puede dar de alta. Ya existe");
-                        }
-                        else
-                        {
-                            resultado = usu.AgregarUsuario(bdactevalu.Conexion, usu);
-                        }
+                        Usuario usu = new Usuario(txtNIF.Text,txtNombre.Text,txtApellido.Text,chkAdmin.Checked,txtClave.Text);
+                        Usuario.AñadirUsuario(bdactevalu.Conexion, usu);
                     }
                     else
                     {
-                        resultado = usu.ActualizaUsuario(bdactevalu.Conexion, usu);
+                        MessageBox.Show("Este usuario no se puede dar de alta. Ya existe");
                     }
-
-                    if (resultado > 0)
-                    {
-                        LimpiarControles();
-                    }
-
                     bdactevalu.CerrarConexion();
-                    
-                    CargaListaUsuarios();
-
-                }
-                else
-                {
-                    MessageBox.Show("No se ha podido abrir la conexión con la Base de Datos");
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
-            }
-            finally  // en cualquier caso cierro la conexión (haya error o no)
-            {
-                bdatos.CerrarConexion();
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void bntEliminar_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                int resultado;
+
+                if (dtgUsuarios.SelectedRows.Count == 1)
+                {
+                    int id = (int)dtgUsuarios.CurrentRow.Cells[0].Value;
+
+                    DialogResult eliminacion = MessageBox.Show("¿Estas seguro que quieres borrar?",
+                                                "Eliminación", MessageBoxButtons.YesNo);
+
+                    if (eliminacion == DialogResult.Yes)
+                    {
+                        if (bdactevalu.AbrirConexion())
+                        {
+                            resultado = Usuario.EliminaUsuario(bdactevalu.Conexion,id);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se puede abrir la Base de Datos");
+                        }
+                        
+                        bdactevalu.CerrarConexion();
+
+                        ListaUsuarios();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnInformes_Click(object sender, EventArgs e)
@@ -149,6 +151,19 @@ namespace ActEv6
             this.Dispose();
         }
 
-
+        private void ListaUsuarios()
+        {
+            string consulta = "Select * from usuarios";
+            List<Usuario> usuarios;
+            if (bdactevalu.AbrirConexion())
+            {
+                usuarios = Usuario.BuscaUsuario(bdactevalu.Conexion, consulta);
+                bdactevalu.CerrarConexion();
+            }
+            else
+            {
+                MessageBox.Show("No se puede abrir la Base de Datos");
+            }
+        }
     }
 }
