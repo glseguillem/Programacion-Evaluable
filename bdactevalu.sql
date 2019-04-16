@@ -3,7 +3,6 @@ CREATE DATABASE bdactevalu CHARACTER SET UTF8;
 USE bdactevalu;
 
 CREATE TABLE empleados (
-ID VARCHAR() NOT NULL PRIMARY KEY,
 NIF varchar(9) NOT NULL PRIMARY KEY,
 nombre varchar(50) NOT NULL,
 apellido varchar(100) NOT NULL,
@@ -13,10 +12,10 @@ claveAdmin varchar(10) DEFAULT NULL
 
 
 CREATE TABLE fichajes (
+id int NOT NULL PRIMARY KEY,
 NIFempleado varchar(9) NOT NULL,
 dia date NOT NULL,
-horaEntrada datetime NOT NULL,
-horaSalida datetime NOT NULL,
-fichadoEntrada tinyint(1) NOT NULL,
-fichadoSalida tinyint(1) NOT NULL
-)
+hora datetime not null,
+esEntrada tinyint(1) NOT NULL,
+foreign key(NIFempleado) references empleados(NIF)
+);
