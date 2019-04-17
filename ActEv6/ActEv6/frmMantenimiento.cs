@@ -84,11 +84,20 @@ namespace ActEv6
             {
                 if (bdactevalu.AbrirConexion())
                 {
+                    bool admi;
                     string consulta = string.Format("SELECT * FROM empleados WHERE nombre LIKE ('{0}') and apellido LIKE ('{1}');"
                         , txtNombre.Text, txtApellido.Text);
                     if (Usuario.BuscaUsuario(bdactevalu.Conexion, consulta).Count == 0)
                     {
-                        Usuario usu = new Usuario(txtNIF.Text,txtNombre.Text,txtApellido.Text,chkAdmin.Checked,txtClave.Text);
+                        if (chkAdmin.Checked)
+                        {
+                            admi = true;
+                        }
+                        else
+                        {
+                            admi = false;
+                        }
+                        Usuario usu = new Usuario(txtNIF.Text,txtNombre.Text,txtApellido.Text,admi,txtClave.Text);
                         Usuario.AñadirUsuario(bdactevalu.Conexion, usu);
                         ListaUsuarios();
                     }
@@ -96,16 +105,20 @@ namespace ActEv6
                     {
                         MessageBox.Show("Este usuario no se puede dar de alta. Ya existe");
                     }
-                    bdactevalu.CerrarConexion();
+                    
                 }
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            finally
+            {
+                bdactevalu.CerrarConexion();
+            }
         }
 
-        private void bntEliminar_Click(object sender, EventArgs e)//No funciona, preguntar a salva
+        private void bntEliminar_Click(object sender, EventArgs e) //ya funciona :D
         {
             try
             {
@@ -113,6 +126,7 @@ namespace ActEv6
 
                 if (dtgUsuarios.SelectedRows.Count == 1)
                 {
+                    MessageBox.Show("Fila seleccionada");
                     string nif = (string)dtgUsuarios.CurrentRow.Cells[0].Value;
 
                     DialogResult eliminacion = MessageBox.Show("¿Estas seguro que quieres borrar?",
@@ -123,6 +137,7 @@ namespace ActEv6
                         if (bdactevalu.AbrirConexion())
                         {
                             resultado = Usuario.EliminaUsuario(bdactevalu.Conexion,nif);
+                            MessageBox.Show("Registros afectados: " + resultado);
                         }
                         else
                         {
@@ -176,21 +191,14 @@ namespace ActEv6
             List<Usuario> usuarios;
             if (bdactevalu.AbrirConexion())
             {
-                usuarios = Usuario.BuscaUsuario(bdactevalu.Conexion, consulta);
-                dtgFichajes.DataSource = usuarios;
+               // usuarios = Fichaje.AgregarFichaje(bdactevalu.Conexion, consulta);
+               //dtgFichajes.DataSource = usuarios;
             }
             else
             {
                 MessageBox.Show("No se puede abrir la Base de Datos");
             }
             bdactevalu.CerrarConexion();
-        }
-
-        private void MostrarTexto (Usuario usu)
-        {
-            dtgUsuarios.Rows.Add(usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador,usu.ContrasenyaAdministrador);
-            dtgFichajes.Rows.Add(usu.Nif);
-
         }
 
     }

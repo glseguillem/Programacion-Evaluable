@@ -1,6 +1,6 @@
 ﻿namespace ActEv6
 {
-    partial class frmBasico
+    partial class s
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -38,8 +38,9 @@
             this.btnPresencia = new System.Windows.Forms.Button();
             this.btnSalida = new System.Windows.Forms.Button();
             this.txtNif = new System.Windows.Forms.TextBox();
-            this.txtInformacion = new System.Windows.Forms.TextBox();
             this.btnCerrar = new System.Windows.Forms.Button();
+            this.dtgInfo = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // btnEntrada
@@ -137,15 +138,6 @@
             this.txtNif.Size = new System.Drawing.Size(197, 41);
             this.txtNif.TabIndex = 8;
             // 
-            // txtInformacion
-            // 
-            this.txtInformacion.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtInformacion.Location = new System.Drawing.Point(64, 129);
-            this.txtInformacion.Multiline = true;
-            this.txtInformacion.Name = "txtInformacion";
-            this.txtInformacion.Size = new System.Drawing.Size(698, 249);
-            this.txtInformacion.TabIndex = 9;
-            // 
             // btnCerrar
             // 
             this.btnCerrar.Image = global::ActEv6.Properties.Resources.cancelar;
@@ -156,13 +148,21 @@
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
-            // frmBasico
+            // dtgInfo
+            // 
+            this.dtgInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgInfo.Location = new System.Drawing.Point(64, 135);
+            this.dtgInfo.Name = "dtgInfo";
+            this.dtgInfo.Size = new System.Drawing.Size(698, 243);
+            this.dtgInfo.TabIndex = 9;
+            // 
+            // s
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dtgInfo);
             this.Controls.Add(this.btnCerrar);
-            this.Controls.Add(this.txtInformacion);
             this.Controls.Add(this.txtNif);
             this.Controls.Add(this.btnSalida);
             this.Controls.Add(this.btnPresencia);
@@ -173,9 +173,10 @@
             this.Controls.Add(this.btnEntrada);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.KeyPreview = true;
-            this.Name = "frmBasico";
+            this.Name = "s";
             this.Text = "Formulario Basico";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dtgInfo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -192,8 +193,8 @@
         private System.Windows.Forms.Button btnPresencia;
         private System.Windows.Forms.Button btnSalida;
         private System.Windows.Forms.TextBox txtNif;
-        private System.Windows.Forms.TextBox txtInformacion;
         private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.DataGridView dtgInfo;
     }
 }
 

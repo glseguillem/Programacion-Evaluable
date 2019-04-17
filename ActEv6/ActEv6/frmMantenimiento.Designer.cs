@@ -44,16 +44,7 @@
             this.lblClave = new System.Windows.Forms.Label();
             this.txtClave = new System.Windows.Forms.TextBox();
             this.chkAdmin = new System.Windows.Forms.CheckBox();
-            this.nif = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.administrado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clave = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.nifEmpleado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dia = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hora = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tipoFichaje = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dtgFichajes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgUsuarios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -112,11 +103,6 @@
             // dtgFichajes
             // 
             this.dtgFichajes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgFichajes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nifEmpleado,
-            this.dia,
-            this.hora,
-            this.tipoFichaje});
             this.dtgFichajes.Location = new System.Drawing.Point(79, 209);
             this.dtgFichajes.Name = "dtgFichajes";
             this.dtgFichajes.Size = new System.Drawing.Size(443, 178);
@@ -125,12 +111,6 @@
             // dtgUsuarios
             // 
             this.dtgUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgUsuarios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nif,
-            this.nombre,
-            this.apellido,
-            this.administrado,
-            this.clave});
             this.dtgUsuarios.Location = new System.Drawing.Point(46, 12);
             this.dtgUsuarios.Name = "dtgUsuarios";
             this.dtgUsuarios.Size = new System.Drawing.Size(545, 178);
@@ -221,54 +201,9 @@
             this.chkAdmin.Text = "Administrador";
             this.chkAdmin.UseVisualStyleBackColor = true;
             // 
-            // nif
-            // 
-            this.nif.HeaderText = "NIF";
-            this.nif.Name = "nif";
-            // 
-            // nombre
-            // 
-            this.nombre.HeaderText = "Nombre";
-            this.nombre.Name = "nombre";
-            // 
-            // apellido
-            // 
-            this.apellido.HeaderText = "Apellido";
-            this.apellido.Name = "apellido";
-            // 
-            // administrado
-            // 
-            this.administrado.HeaderText = "Administrador";
-            this.administrado.Name = "administrado";
-            // 
-            // clave
-            // 
-            this.clave.HeaderText = "Clave Administrador";
-            this.clave.Name = "clave";
-            // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
-            // 
-            // nifEmpleado
-            // 
-            this.nifEmpleado.HeaderText = "NIF Empleado";
-            this.nifEmpleado.Name = "nifEmpleado";
-            // 
-            // dia
-            // 
-            this.dia.HeaderText = "Día";
-            this.dia.Name = "dia";
-            // 
-            // hora
-            // 
-            this.hora.HeaderText = "Hora";
-            this.hora.Name = "hora";
-            // 
-            // tipoFichaje
-            // 
-            this.tipoFichaje.HeaderText = "Fichaje";
-            this.tipoFichaje.Name = "tipoFichaje";
             // 
             // frmMantenimiento
             // 
@@ -317,15 +252,6 @@
         private System.Windows.Forms.Label lblClave;
         private System.Windows.Forms.TextBox txtClave;
         private System.Windows.Forms.CheckBox chkAdmin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nif;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn apellido;
-        private System.Windows.Forms.DataGridViewTextBoxColumn administrado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clave;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nifEmpleado;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dia;
-        private System.Windows.Forms.DataGridViewTextBoxColumn hora;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tipoFichaje;
         private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

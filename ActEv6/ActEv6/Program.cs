@@ -16,7 +16,7 @@ namespace ActEv6
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmBasico());
+            Application.Run(new s());
         }
     }
 }

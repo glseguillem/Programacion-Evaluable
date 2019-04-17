@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace ActEv6
 {
-    public partial class frmBasico : Form
+    public partial class s : Form
     {
         ConexionBD bdactevalu = new ConexionBD();
 
-        public frmBasico()
+        public s()
         {
             InitializeComponent();
         }
@@ -38,19 +38,25 @@ namespace ActEv6
 
         private void btnEntrada_Click(object sender, EventArgs e)
         {
-            string consulta = string.Format("INSERT INTO fichajes() ");
+            if (Usuario.ComprobarLetraNif(txtNif.Text))
+            {
+                
+                //string consulta = string.Format("INSERT INTO fichajes(id,NIFempleado,dia,horaEntrada,fichadoEntrada);");
+            }
+
         }
 
-        private void btnSalida_Click(object sender, EventArgs e)
+        private void btnSalida_Click(object sender, EventArgs e)//Lo hace gloria 
         {
-            //if (ComprobarLetraNif(txtNif.Text)){
+            if (Usuario.ComprobarLetraNif(txtNif.Text))
+            {
 
-            //}
+            }
         }
 
-        private void btnPresencia_Click(object sender, EventArgs e)
+        private void btnPresencia_Click(object sender, EventArgs e)//esto tambien :)
         {
-            
+           
         }
 
         private void btnPermanencia_Click(object sender, EventArgs e)

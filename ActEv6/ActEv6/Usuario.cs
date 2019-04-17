@@ -44,7 +44,7 @@ namespace ActEv6
 
         
 
-        private static bool ComprobarLetraNif(string nif)
+        public static bool ComprobarLetraNif(string nif)
         {
             if (nif.Length == 9)
             {

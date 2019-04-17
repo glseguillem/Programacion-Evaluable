@@ -19,5 +19,6 @@ horaEntrada datetime NULL,
 horaSalida datetime NULL,
 fichadoEntrada tinyint(1) NOT NULL,
 fichadoSalida tinyint(1) NOT NULL,
-foreign key(NIFempleado) references empleados(NIF)
+foreign key(NIFempleado) references empleados(NIF),
+primary key(id)
 );
