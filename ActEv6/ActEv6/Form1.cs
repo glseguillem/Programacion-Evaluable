@@ -36,12 +36,12 @@ namespace ActEv6
             lblFecha.Text = DateTime.Now.ToLongDateString();
         }
 
-        private void btnEntrada_Click(object sender, EventArgs e)
+        private void btnEntrada_Click(object sender, EventArgs e)//Falta probarlo, creo que dará error porque aqui utilizo string y en la base de datos date
         {
-            if (Usuario.ComprobarLetraNif(txtNif.Text))
+            string consulta=string.Format("SELECT * FROM fichajes WHERE NIF LIKE '{0}'",txtNif.Text);
+            if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1)
             {
-                
-                //string consulta = string.Format("INSERT INTO fichajes(id,NIFempleado,dia,horaEntrada,fichadoEntrada);");
+                Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Today.ToString("d"), DateTime.Now.ToShortTimeString());
             }
 
         }
@@ -61,10 +61,10 @@ namespace ActEv6
 
         private void btnPermanencia_Click(object sender, EventArgs e)
         {
-
+            
         }
 
-        private void btnMantenimiento_Click(object sender, EventArgs e)
+        private void btnMantenimiento_Click(object sender, EventArgs e)//Falta comprobar errores
         {
             frmMantenimiento mantenimiento = new frmMantenimiento();
             mantenimiento.ShowDialog();

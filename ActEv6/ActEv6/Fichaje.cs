@@ -47,18 +47,27 @@ namespace ActEv6
         {
         }
         
-        
-        public static int AñadirFichajeEntrada(MySqlConnection conexion, Usuario fichaje)
+        /// <summary>
+        /// Inserta un nuevo fichaje en la base de datos con los datos de un fichaje de entrada
+        /// </summary>
+        /// <param name="conexion">Conexión con la base de datos</param>
+        /// <param name="fichaje">Fichaje a insertar</param>
+        /// <returns></returns>
+        public static int FichajeEntrada(MySqlConnection conexion, Fichaje fichaje)
         {
            int resultado;
            string consulta;
-           consulta = string.Format("INSERT INTO fichajes (NIF,nombre,apellido,administrador,claveAdmin) " +
-                    "VALUES ('{0}','{1}','{2}','{3}','{4}');", usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador, usu.ContrasenyaAdministrador);
-
+           consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaEntrada,fichadoEntrada) " +
+                    "VALUES ('{0}','{1}','{2}','{3}';", fichaje.nifEmpleado, fichaje.dia, fichaje.horaEntrada,true);
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado = comando.ExecuteNonQuery();
             return resultado;
+        }
+
+        public static List<Fichaje> Permanencia(MySqlConnection conexion)
+        {
+            string consulta=string.Format()
         }
     }
 }
