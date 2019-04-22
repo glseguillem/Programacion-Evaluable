@@ -58,3 +58,11 @@ C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6
 C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.CopyComplete
 C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6.exe
 C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6.pdb
+D:\Documents\Carpeta de ruben, NO TOCAR, GRACIAS\1ºDAM\1ºDAM ejercicios\pROGRAMACION\actEv6 2\ActEv6\ActEv6\obj\Debug\ActEv6.csprojAssemblyReference.cache
+D:\Documents\Carpeta de ruben, NO TOCAR, GRACIAS\1ºDAM\1ºDAM ejercicios\pROGRAMACION\actEv6 2\ActEv6\ActEv6\obj\Debug\ActEv6.s.resources
+D:\Documents\Carpeta de ruben, NO TOCAR, GRACIAS\1ºDAM\1ºDAM ejercicios\pROGRAMACION\actEv6 2\ActEv6\ActEv6\obj\Debug\ActEv6.frmMantenimiento.resources
+D:\Documents\Carpeta de ruben, NO TOCAR, GRACIAS\1ºDAM\1ºDAM ejercicios\pROGRAMACION\actEv6 2\ActEv6\ActEv6\obj\Debug\ActEv6.Properties.Resources.resources
+D:\Documents\Carpeta de ruben, NO TOCAR, GRACIAS\1ºDAM\1ºDAM ejercicios\pROGRAMACION\actEv6 2\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.GenerateResource.cache
+D:\Documents\Carpeta de ruben, NO TOCAR, GRACIAS\1ºDAM\1ºDAM ejercicios\pROGRAMACION\actEv6 2\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.CoreCompileInputs.cache
+D:\Documents\Carpeta de ruben, NO TOCAR, GRACIAS\1ºDAM\1ºDAM ejercicios\pROGRAMACION\actEv6 2\ActEv6\ActEv6\obj\Debug\ActEv6.exe
+D:\Documents\Carpeta de ruben, NO TOCAR, GRACIAS\1ºDAM\1ºDAM ejercicios\pROGRAMACION\actEv6 2\ActEv6\ActEv6\obj\Debug\ActEv6.pdb
