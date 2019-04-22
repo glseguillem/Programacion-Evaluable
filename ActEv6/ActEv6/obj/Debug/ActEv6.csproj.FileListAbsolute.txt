@@ -1,4 +1,4 @@
-﻿E:\ActEv6\ActEv6\bin\Debug\ActEv6.exe.config
+E:\ActEv6\ActEv6\bin\Debug\ActEv6.exe.config
 E:\ActEv6\ActEv6\bin\Debug\ActEv6.exe
 E:\ActEv6\ActEv6\bin\Debug\ActEv6.pdb
 E:\ActEv6\ActEv6\obj\Debug\ActEv6.csprojAssemblyReference.cache

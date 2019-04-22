@@ -11,17 +11,19 @@ namespace ActEv6
     {
 
         //	id	NIFempleado	dia	horaEntrada	horaSalida	fichadoEntrada	fichadoSalida
+        private int id;
         private string nifEmpleado;
-        private string dia;
-        private string horaEntrada;
-        private string horaSalida;
+        private DateTime dia;
+        private DateTime horaEntrada;
+        private DateTime horaSalida;
         private bool fichadoEntrada = false;
         private bool fichadoSalida = false;
 
+        public int Id { set { id = value; } get { return id; } }
         public string NifEmpleado { set { nifEmpleado = value; } get { return nifEmpleado; } }
-        public string Dia { set { dia = value; } get { return dia; } }
-        public string HoraEntrada { set { horaEntrada = value; } get { return horaEntrada; } }
-        public string HoraSalida { set { horaSalida = value; } get { return horaSalida; } }
+        public DateTime Dia { set { dia = value; } get { return dia; } }
+        public DateTime HoraEntrada { set { horaEntrada = value; } get { return horaEntrada; } }
+        public DateTime HoraSalida { set { horaSalida = value; } get { return horaSalida; } }
         public bool FichadoEntrada { set { fichadoEntrada = value; } get { return fichadoEntrada; } }
         public bool FichadoSalida { set { fichadoSalida = value; } get { return fichadoSalida; } }
 
@@ -31,8 +33,7 @@ namespace ActEv6
         /// <param name="nifEmpleado">Nif del empleado</param>
         /// <param name="dia">Dia del fichaje</param>
         /// <param name="horaEntrada">Hora en la que se realiza el fichaje</param>
-
-        public Fichaje(string nifEmpleado, string dia, string horaEntrada)
+        public Fichaje(string nifEmpleado, DateTime dia, DateTime horaEntrada)
         {
             this.nifEmpleado = nifEmpleado;
             this.dia = dia;
@@ -65,9 +66,41 @@ namespace ActEv6
             return resultado;
         }
 
-        public static List<Fichaje> Permanencia(MySqlConnection conexion)
+        public static int FichajeSalida(MySqlConnection conexion, Fichaje fichaje)//falta cambiar consulta
         {
-            string consulta = string.Format("SELECT * FROM fichajes WHERE dia LIKE '{0}'", DateTime.Today.ToString("d"));
+            int resultado;
+            string consulta;
+            consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaSalida,fichadoSalida) " +
+                     "VALUES ('{0}','{1}','{2}','{3}';", fichaje.nifEmpleado, fichaje.dia, fichaje.horaSalida, false);
+
+            MySqlCommand comando = new MySqlCommand(consulta, conexion);
+            resultado = comando.ExecuteNonQuery();
+            return resultado;
+        }
+
+        public static List<Fichaje> Permanencia(MySqlConnection conexion, DateTime diaInicio, DateTime diaFin)
+        {
+            List<Fichaje> fichajes = new List<Fichaje>();
+            string consulta = string.Format("SELECT * FROM fichajes WHERE dia BETWEEN '{0}' and '{1}';", diaInicio, diaFin);
+
+            MySqlCommand commando = new MySqlCommand(consulta, conexion);
+            MySqlDataReader reader = commando.ExecuteReader();
+            if (reader.HasRows)
+            {
+                Fichaje f = new Fichaje();
+                while (reader.Read())
+                {
+                    f.id = reader.GetInt16(0);
+                    f.nifEmpleado = reader.GetString(1);
+                    f.dia = reader.GetDateTime(2);
+                    f.horaEntrada = reader.GetDateTime(3);
+                    f.horaSalida = reader.GetDateTime(4);
+                    f.fichadoEntrada = reader.GetBoolean(5);
+                    f.fichadoEntrada = reader.GetBoolean(6);
+                }
+                reader.Close();
+            }
+            return fichajes;
         }
     }
 }

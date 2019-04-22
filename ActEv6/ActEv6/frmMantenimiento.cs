@@ -187,18 +187,18 @@ namespace ActEv6
 
         private void ListaFichaje()
         {
-            string consulta = "Select * from fichajes;";
-            List<Usuario> usuarios;
-            if (bdactevalu.AbrirConexion())
-            {
-               // usuarios = Fichaje.AgregarFichaje(bdactevalu.Conexion, consulta);
-               //dtgFichajes.DataSource = usuarios;
-            }
-            else
-            {
-                MessageBox.Show("No se puede abrir la Base de Datos");
-            }
-            bdactevalu.CerrarConexion();
+            //string consulta = "Select * from fichajes;";
+            //List<Fichaje> fichajes;
+            //if (bdactevalu.AbrirConexion())
+            //{
+            //   fichajes = Fichaje.FichajeEntrada(bdactevalu.Conexion,consulta);
+            //   dtgFichajes.DataSource = fichajes;
+            //}
+            //else
+            //{
+            //    MessageBox.Show("No se puede abrir la Base de Datos");
+            //}
+            //bdactevalu.CerrarConexion();
         }
 
     }

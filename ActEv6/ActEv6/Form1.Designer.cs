@@ -40,6 +40,11 @@
             this.txtNif = new System.Windows.Forms.TextBox();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.dtgInfo = new System.Windows.Forms.DataGridView();
+            this.lblNif = new System.Windows.Forms.Label();
+            this.dtpInicio = new System.Windows.Forms.DateTimePicker();
+            this.lblInicio = new System.Windows.Forms.Label();
+            this.lblFin = new System.Windows.Forms.Label();
+            this.dtpFin = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dtgInfo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -156,11 +161,59 @@
             this.dtgInfo.Size = new System.Drawing.Size(698, 243);
             this.dtgInfo.TabIndex = 9;
             // 
+            // lblNif
+            // 
+            this.lblNif.AutoSize = true;
+            this.lblNif.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNif.Location = new System.Drawing.Point(60, 32);
+            this.lblNif.Name = "lblNif";
+            this.lblNif.Size = new System.Drawing.Size(40, 24);
+            this.lblNif.TabIndex = 10;
+            this.lblNif.Text = "NIF";
+            this.lblNif.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // dtpInicio
+            // 
+            this.dtpInicio.Location = new System.Drawing.Point(288, 43);
+            this.dtpInicio.Name = "dtpInicio";
+            this.dtpInicio.Size = new System.Drawing.Size(200, 20);
+            this.dtpInicio.TabIndex = 13;
+            // 
+            // lblInicio
+            // 
+            this.lblInicio.AutoSize = true;
+            this.lblInicio.Location = new System.Drawing.Point(285, 23);
+            this.lblInicio.Name = "lblInicio";
+            this.lblInicio.Size = new System.Drawing.Size(79, 13);
+            this.lblInicio.TabIndex = 14;
+            this.lblInicio.Text = "Fecha de inicio";
+            // 
+            // lblFin
+            // 
+            this.lblFin.AutoSize = true;
+            this.lblFin.Location = new System.Drawing.Point(285, 66);
+            this.lblFin.Name = "lblFin";
+            this.lblFin.Size = new System.Drawing.Size(59, 13);
+            this.lblFin.TabIndex = 16;
+            this.lblFin.Text = "Fecha final";
+            // 
+            // dtpFin
+            // 
+            this.dtpFin.Location = new System.Drawing.Point(288, 86);
+            this.dtpFin.Name = "dtpFin";
+            this.dtpFin.Size = new System.Drawing.Size(200, 20);
+            this.dtpFin.TabIndex = 15;
+            // 
             // s
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblFin);
+            this.Controls.Add(this.dtpFin);
+            this.Controls.Add(this.lblInicio);
+            this.Controls.Add(this.dtpInicio);
+            this.Controls.Add(this.lblNif);
             this.Controls.Add(this.dtgInfo);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.txtNif);
@@ -195,6 +248,11 @@
         private System.Windows.Forms.TextBox txtNif;
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.DataGridView dtgInfo;
+        private System.Windows.Forms.Label lblNif;
+        private System.Windows.Forms.DateTimePicker dtpInicio;
+        private System.Windows.Forms.Label lblInicio;
+        private System.Windows.Forms.Label lblFin;
+        private System.Windows.Forms.DateTimePicker dtpFin;
     }
 }
 
