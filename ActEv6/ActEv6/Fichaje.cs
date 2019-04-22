@@ -67,7 +67,7 @@ namespace ActEv6
 
         public static List<Fichaje> Permanencia(MySqlConnection conexion)
         {
-            string consulta=string.Format()
+            string consulta = string.Format();
         }
     }
 }

@@ -58,3 +58,4 @@ C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6
 C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.CopyComplete
 C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6.exe
 C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6.pdb
+C:\Users\Glorieta\Pictures\Evaluable Programacion\ActEv6\ActEv6\obj\Debug\ActEv6.s.resources
