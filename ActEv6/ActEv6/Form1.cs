@@ -38,12 +38,18 @@ namespace ActEv6
 
         private void btnEntrada_Click(object sender, EventArgs e)//Falta probarlo, creo que dará error porque aqui utilizo string y en la base de datos date
         {
-            string consulta=string.Format("SELECT * FROM fichajes WHERE NIF LIKE '{0}';",txtNif.Text);
-            if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1)
-            {
+            string consulta=string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';",txtNif.Text);
+            bdactevalu.AbrirConexion();
+            //if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1)
+            //{
                 Fichaje fichaje = new Fichaje(txtNif.Text, Convert.ToDateTime(DateTime.Today.ToShortDateString()), Convert.ToDateTime(DateTime.Now.ToShortTimeString()));
-                Fichaje.FichajeEntrada(bdactevalu.Conexion, fichaje);
-            }
+                MessageBox.Show(Convert.ToString(Fichaje.FichajeEntrada(bdactevalu.Conexion, fichaje)));
+            //}
+            //else
+            //{
+            //    MessageBox.Show("datos incorrectos");
+            //}
+            bdactevalu.CerrarConexion();
             //ToShortDateString() --> "5/16/2001"
             //ToShortTimeString() --> "3:02 AM"
         }
@@ -62,8 +68,7 @@ namespace ActEv6
 
         private void btnPresencia_Click(object sender, EventArgs e)
         {
-            string consulta = string.Format("SELECT * FROM fichajes WHERE horaEntrada IS NOT NULL and horaSalida IS NULL;");
-                
+            string consulta = string.Format("SELECT nombre,apellido,horaEntrada FROM empleados INNER JOIN fichajes ON horaEntrada IS NOT NULL and horaSalida IS NULL;");
         }
 
         private void btnPermanencia_Click(object sender, EventArgs e) 

@@ -59,7 +59,7 @@ namespace ActEv6
            int resultado;
            string consulta;
            consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaEntrada,fichadoEntrada) " +
-                    "VALUES ('{0}','{1}','{2}','{3}';", fichaje.nifEmpleado, fichaje.dia, fichaje.horaEntrada,true);
+                    "VALUES ('{0}','{1}','{2}','{3}');", fichaje.nifEmpleado, fichaje.dia, fichaje.horaEntrada,true);
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado = comando.ExecuteNonQuery();
