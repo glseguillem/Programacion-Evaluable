@@ -98,6 +98,7 @@ namespace ActEv6
                             admi = false;
                         }
                         Usuario usu = new Usuario(txtNIF.Text,txtNombre.Text,txtApellido.Text,admi,txtClave.Text);
+                        MessageBox.Show(txtNIF.Text);
                         Usuario.AñadirUsuario(bdactevalu.Conexion, usu);
                         ListaUsuarios();
                     }
@@ -187,18 +188,18 @@ namespace ActEv6
 
         private void ListaFichaje()
         {
-            //string consulta = "Select * from fichajes;";
-            //List<Fichaje> fichajes;
-            //if (bdactevalu.AbrirConexion())
-            //{
-            //   fichajes = Fichaje.FichajeEntrada(bdactevalu.Conexion,consulta);
-            //   dtgFichajes.DataSource = fichajes;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("No se puede abrir la Base de Datos");
-            //}
-            //bdactevalu.CerrarConexion();
+            string consulta = "Select * from fichajes;";
+            List<Fichaje> fichajes;
+            if (bdactevalu.AbrirConexion())
+            {
+                fichajes = Fichaje.BuscaFichajes(bdactevalu.Conexion, consulta);
+                dtgFichajes.DataSource = fichajes;
+            }
+            else
+            {
+                MessageBox.Show("No se puede abrir la Base de Datos");
+            }
+            bdactevalu.CerrarConexion();
         }
 
     }

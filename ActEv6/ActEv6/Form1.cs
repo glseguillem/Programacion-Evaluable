@@ -39,10 +39,18 @@ namespace ActEv6
         private void btnEntrada_Click(object sender, EventArgs e)//Falta probarlo, creo que dará error porque aqui utilizo string y en la base de datos date
         {
             string consulta=string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';",txtNif.Text);
-            bdactevalu.AbrirConexion();
+            try
+            {
+                bdactevalu.AbrirConexion();
+            }catch (Exception ex)
+            {
+                
+            }
+            
+            
             //if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1)
             //{
-                Fichaje fichaje = new Fichaje(txtNif.Text, Convert.ToDateTime(DateTime.Today.ToShortDateString()), Convert.ToDateTime(DateTime.Now.ToShortTimeString()));
+                Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
                 MessageBox.Show(Convert.ToString(Fichaje.FichajeEntrada(bdactevalu.Conexion, fichaje)));
             //}
             //else
@@ -73,6 +81,14 @@ namespace ActEv6
 
         private void btnPermanencia_Click(object sender, EventArgs e) 
         {
+            try
+            {
+                bdactevalu.AbrirConexion();
+            }
+            catch (Exception ex)
+            {
+
+            }
             int horas=0;
             int minutos=0; 
             string tiempo;
@@ -133,6 +149,7 @@ namespace ActEv6
             {
                 dtgInfo.Rows.Add(fichajes[i].Id, fichajes[i].NifEmpleado, fichajes[i].Dia, fichajes[i].HoraEntrada, fichajes[i].HoraSalida, listaHoras+" h, "+listaMinutos+" min");
             }
+            bdactevalu.CerrarConexion();
         }
 
         private void btnMantenimiento_Click(object sender, EventArgs e)//Falta comprobar errores

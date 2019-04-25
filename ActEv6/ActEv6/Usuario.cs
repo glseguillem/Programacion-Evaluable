@@ -107,12 +107,12 @@ namespace ActEv6
             if (usu.administrador)
             {
                 consulta = string.Format("INSERT INTO empleados (NIF,nombre,apellido,administrador,claveAdmin) " +
-                    "VALUES ('{0}','{1}','{2}','{3}','{4}');", usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador, usu.ContrasenyaAdministrador);
+                    "VALUES ('{0}','{1}','{2}','{3}','{4}');", usu.Nif, usu.Nombre, usu.Apellidos, 1, usu.ContrasenyaAdministrador);
             }
             else
             {
                 consulta = string.Format("INSERT INTO empleados (NIF,nombre,apellido,administrador) " +
-                    "VALUES ('{0}','{1}','{2}','{3}');", usu.Nif, usu.Nombre, usu.Apellidos, usu.Administrador);
+                    "VALUES ('{0}','{1}','{2}','{3}');", usu.Nif, usu.Nombre, usu.Apellidos, 0);
             }
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado=comando.ExecuteNonQuery();

@@ -38,6 +38,7 @@ namespace ActEv6
             this.nifEmpleado = nifEmpleado;
             this.dia = dia;
             this.horaEntrada = horaEntrada;
+            this.horaSalida = DateTime.MinValue;
             fichadoEntrada = true;
         }
 
@@ -58,14 +59,14 @@ namespace ActEv6
         {
            int resultado;
            string consulta;
-           consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaEntrada,fichadoEntrada) " +
-                    "VALUES ('{0}','{1}','{2}','{3}');", fichaje.nifEmpleado, fichaje.dia, fichaje.horaEntrada,true);
+           consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaEntrada,horaSalida,fichadoEntrada) " +
+                    "VALUES ('{0}','{1}','{2}','{3}','{4}');", fichaje.nifEmpleado, fichaje.dia.ToString("yyyy/MM/dd"), fichaje.horaEntrada.ToString(),fichaje.horaSalida.ToString(),1);
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado = comando.ExecuteNonQuery();
             return resultado;
         }
-
+        
         public static int FichajeSalida(MySqlConnection conexion, Fichaje fichaje)//falta cambiar consulta
         {
             int resultado;
@@ -101,6 +102,34 @@ namespace ActEv6
                 reader.Close();
             }
             return fichajes;
+        }
+
+        public static List<Fichaje> BuscaFichajes(MySqlConnection Conexion, string consulta)
+        {
+            List<Fichaje> lista = new List<Fichaje>();
+
+            MySqlCommand comando = new MySqlCommand(consulta, Conexion);
+
+            MySqlDataReader reader = comando.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Fichaje fichaje = new Fichaje();
+                    fichaje.Id = reader.GetInt16(0);
+                    fichaje.NifEmpleado = reader.GetString(1);
+                    fichaje.Dia = reader.GetDateTime(2);
+                    fichaje.HoraEntrada = Convert.ToDateTime(reader.GetString(3));
+                    fichaje.HoraSalida = Convert.ToDateTime(reader.GetString(4));
+                    fichaje.fichadoEntrada = reader.GetBoolean(5);
+                    fichaje.fichadoSalida=reader.GetBoolean(6);
+
+                    lista.Add(fichaje);
+                }
+            }
+            reader.Close();
+            return lista;
         }
     }
 }
