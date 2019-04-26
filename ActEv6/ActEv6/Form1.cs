@@ -65,18 +65,25 @@ namespace ActEv6
         private void btnSalida_Click(object sender, EventArgs e)
         {
             string consulta = string.Format("SELECT * FROM fichajes WHERE NIF LIKE '{0}';",txtNif.Text);
-            if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion, consulta).Count == 1)
+            try
             {
-                Fichaje fichaje = new Fichaje();
-                fichaje.HoraSalida = Convert.ToDateTime(DateTime.Now.ToShortTimeString());
-                fichaje.FichadoEntrada = true;
-                Fichaje.FichajeSalida(bdactevalu.Conexion, fichaje);
+                bdactevalu.AbrirConexion();
             }
+            catch (Exception ex)
+            {
+
+            }
+
+            Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
+            MessageBox.Show(Convert.ToString(Fichaje.FichajeSalida(bdactevalu.Conexion, fichaje)));
+
+            bdactevalu.CerrarConexion();
+
         }
 
         private void btnPresencia_Click(object sender, EventArgs e)
         {
-            string consulta = string.Format("SELECT nombre,apellido,horaEntrada FROM empleados INNER JOIN fichajes ON horaEntrada IS NOT NULL and horaSalida IS NULL;");
+            string consulta = string.Format("SELECT nombre,apellido,horaEntrada FROM empleados INNER JOIN fichajes ON horaEntrada IS NOT NULL and horaSalida is NULL;");
         }
 
         private void btnPermanencia_Click(object sender, EventArgs e) 

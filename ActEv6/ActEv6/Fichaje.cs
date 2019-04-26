@@ -66,13 +66,19 @@ namespace ActEv6
             resultado = comando.ExecuteNonQuery();
             return resultado;
         }
-        
+
+        /// <summary>
+        /// Inserta un nuevo fichaje en la base de datos con los datos de un fichaje de salida
+        /// </summary>
+        /// <param name="conexion">Conexión con la base de datos</param>
+        /// <param name="fichaje">Fichaje a insertar</param>
+        /// <returns></returns>
         public static int FichajeSalida(MySqlConnection conexion, Fichaje fichaje)//falta cambiar consulta
         {
             int resultado;
             string consulta;
-            consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaSalida,fichadoSalida) " +
-                     "VALUES ('{0}','{1}','{2}','{3}';", fichaje.nifEmpleado, fichaje.dia, fichaje.horaSalida, false);
+            consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaEntrada,horaSalida,fichadoEntrada) " +
+                     "VALUES ('{0}','{1}','{2}','{3}','{4}';", fichaje.nifEmpleado, fichaje.dia.ToString("yyyy/MM/dd"), fichaje.horaEntrada.ToString(), fichaje.horaSalida.ToString(),0);
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado = comando.ExecuteNonQuery();
@@ -91,7 +97,7 @@ namespace ActEv6
                 Fichaje f = new Fichaje();
                 while (reader.Read())
                 {
-                    f.id = reader.GetInt16(0);
+                    f.id = reader.GetInt32(0);
                     f.nifEmpleado = reader.GetString(1);
                     f.dia = reader.GetDateTime(2);
                     f.horaEntrada = reader.GetDateTime(3);
@@ -117,7 +123,7 @@ namespace ActEv6
                 while (reader.Read())
                 {
                     Fichaje fichaje = new Fichaje();
-                    fichaje.Id = reader.GetInt16(0);
+                    fichaje.Id = reader.GetInt32(0);
                     fichaje.NifEmpleado = reader.GetString(1);
                     fichaje.Dia = reader.GetDateTime(2);
                     fichaje.HoraEntrada = Convert.ToDateTime(reader.GetString(3));
