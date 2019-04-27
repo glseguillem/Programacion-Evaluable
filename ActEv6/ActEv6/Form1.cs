@@ -94,7 +94,7 @@ namespace ActEv6
             }
 
             bdactevalu.CerrarConexion();
-
+        }
 
         private void btnPermanencia_Click(object sender, EventArgs e) 
         {
@@ -109,13 +109,16 @@ namespace ActEv6
             int horas = 0;
             int minutos = 0;
             int segundos = 0;
-            string tiempo;
 
             List<Fichaje> fichajes = Fichaje.BuscaFichajes(bdactevalu.Conexion, "SELECT * FROM fichajes;");//obtengo todos los fichajes de la base de datos
             List<Fichaje> fResultado = new List<Fichaje>();
+            List<int> listaDias = new List<int>();
             List<int> listaHoras = new List<int>();
             List<int> listaMinutos = new List<int>();
             List<int> listaSegundos = new List<int>();
+            DateTime inicio;
+            DateTime fin;
+            int[] res = new int[4];
             for (int i = 0; i < fichajes.Count-1; i++)
             {
                 if (fichajes[i].HoraEntrada<dtpFin.Value || fichajes[i].HoraSalida>dtpInicio.Value)//obtengo los fichajes que estén en parte dentro del intervalo de fechas
@@ -127,44 +130,49 @@ namespace ActEv6
             for (int i = 0; i < fResultado.Count; i++)
             {
                 //Comprobación del tiempo del fichaje que está dentro del intervalo
-                if (fResultado[i].HoraSalida<dtpFin.Value && fResultado[i].HoraEntrada>dtpInicio.Value)//compruebo si todo el tiempo del fichaje está dentro del interalo
+                if (fResultado[i].HoraSalida < dtpFin.Value && fResultado[i].HoraEntrada > dtpInicio.Value)//compruebo si todo el tiempo del fichaje está dentro del interalo
                 {
-                    tiempo = Convert.ToString(fResultado[i].HoraSalida - fResultado[i].HoraEntrada);
+                    inicio = fResultado[i].HoraEntrada;
+                    fin = fResultado[i].HoraSalida;
                 }
-                else if(fResultado[i].HoraEntrada>dtpInicio.Value )//compruebo si el fichaje de entrada empieza dentro del intervalo
+                else if (fResultado[i].HoraEntrada > dtpInicio.Value)//compruebo si el fichaje de entrada empieza dentro del intervalo
                 {
+                    inicio = fResultado[i].HoraEntrada;
                     if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
                     {
-                        tiempo = Convert.ToString(DateTime.Now - fResultado[i].HoraEntrada);
+                        fin = DateTime.Now;
                     }
-                    else if(fResultado[i].HoraSalida>dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
+                    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
                     {
-                        tiempo = Convert.ToString(dtpFin.Value - fResultado[i].HoraSalida);
+                        fin = dtpFin.Value;
                     }
                     else
                     {
-                        tiempo = Convert.ToString(fResultado[i].HoraSalida - fResultado[i].HoraEntrada);
+                        fin = fResultado[i].HoraSalida;
                     }
                 }
                 else//el fichaje de entrada empieza antes que el intervalo
                 {
+                    inicio = dtpInicio.Value;
                     if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
                     {
-                        tiempo = Convert.ToString(DateTime.Now - dtpInicio.Value);
+                        fin = DateTime.Now;
                     }
                     else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
                     {
-                        tiempo = Convert.ToString(dtpFin.Value - dtpInicio.Value);
+                        fin = dtpFin.Value;
                     }
                     else
                     {
-                        tiempo = Convert.ToString(fResultado[i].HoraSalida - dtpInicio.Value);
+                        fin = fResultado[i].HoraSalida;
                     }
                 }
+                res = RestaHoras(inicio, fin);
                 
-                listaHoras.Add((Convert.ToInt16(tiempo[11]) * 10) + Convert.ToInt16(tiempo[12]));
-                listaMinutos.Add((Convert.ToInt16(tiempo[14]) * 10) + Convert.ToInt16(tiempo[15]));
-                listaHoras.Add((Convert.ToInt16(tiempo[17]) * 10) + Convert.ToInt16(tiempo[18]));
+                listaDias.Add(res[0]);
+                listaHoras.Add(res[1]);
+                listaMinutos.Add(res[2]);
+                listaSegundos.Add(res[3]);
             }
 
             for (int i = 0; i < fResultado.Count; i++)
@@ -190,9 +198,10 @@ namespace ActEv6
             dtgInfo.Columns.Add("horaSalida", "hora de salida");
             dtgInfo.Columns.Add("TiempoFichaje", "duración");
 
-            for (int i = 0; i < fichajes.Count; i++)
+            MessageBox.Show(Convert.ToString(fResultado.Count) + " " + Convert.ToString(listaDias.Count) + " " + Convert.ToString(listaHoras.Count) + " " + Convert.ToString(listaMinutos.Count) + " " + Convert.ToString(listaSegundos.Count) + " ");
+            for (int i = 0; i < fResultado.Count; i++)
             {
-                dtgInfo.Rows.Add(fichajes[i].Id, fichajes[i].NifEmpleado, fichajes[i].Dia, fichajes[i].HoraEntrada, fichajes[i].HoraSalida, listaHoras[i]+" h, "+listaMinutos[i]+" min, "+listaSegundos[i]+" s");
+                dtgInfo.Rows.Add(fResultado[i].Id, fResultado[i].NifEmpleado, fResultado[i].Dia, fResultado[i].HoraEntrada, fResultado[i].HoraSalida, listaDias[i]+" d, "+listaHoras[i]+" h, "+listaMinutos[i]+" min, "+listaSegundos[i]+" s");
             }
             bdactevalu.CerrarConexion();
         }
@@ -210,6 +219,82 @@ namespace ActEv6
             this.Dispose();
         }
 
-        
+        private int[] RestaHoras(DateTime inicio, DateTime fin)
+        {
+            //25/04/2019 14:13:01
+            //0123456789+12345678
+            int dia1;
+            int dia2;
+            int hora1;
+            int hora2;
+            int minuto1;
+            int minuto2;
+            int segundo1;
+            int segundo2;
+            string fecha1;
+            string fecha2;
+            int[] fechaRes = new int[4];
+            int horaRes;
+            int minutoRes;
+            int segundoRes;
+            int diaRes;
+
+            fecha1 = Convert.ToString(inicio);
+            fecha2 = Convert.ToString(fin);
+            hora1 = fecha1[11] * 10 + fecha1[12];
+            minuto1 = fecha1[14] * 10 + fecha1[15];
+            segundo1 = fecha1[17] * 10 + fecha1[18];
+            hora2 = fecha2[11] * 10 + fecha2[12];
+            minuto2 = fecha2[14] * 10 + fecha2[15];
+            segundo2 = fecha2[17] * 10 + fecha2[18];
+            dia1 = fecha1[0] * 10 + fecha1[1];
+            dia2 = fecha2[0] * 10 + fecha2[1];
+            segundoRes = segundo2 - segundo1;
+            minutoRes = minuto2 - minuto1;
+            horaRes = hora2 - hora1;
+            diaRes = dia2 - dia1;
+            if (diaRes>1 || diaRes<0)
+            {
+                diaRes = 1;
+            }
+
+            if (segundoRes < 0)
+            {
+                segundoRes += 60;
+                minutoRes--;
+            }else if (segundoRes >= 60)
+            {
+                segundoRes -= 60;
+                minutoRes++;
+            }
+
+            if (minutoRes < 0)
+            {
+                minutoRes += 60;
+                horaRes--;
+            }
+            else if (minutoRes >= 60)
+            {
+                minutoRes -= 60;
+                horaRes++;
+            }
+
+            if (horaRes < 0)
+            {
+                horaRes += 24;
+                diaRes--;
+            }
+            else if (horaRes >= 24)
+            {
+                horaRes -= 24;
+                diaRes++;
+            }
+            fechaRes[0] = diaRes;
+            fechaRes[1] = horaRes;
+            fechaRes[2] = minutoRes;
+            fechaRes[3] = segundoRes;
+            return fechaRes;
+        }
+
     }
 }

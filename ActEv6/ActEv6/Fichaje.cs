@@ -59,7 +59,7 @@ namespace ActEv6
         {
            int resultado;
            string consulta;
-           consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaEntrada,horaSalida,fichadoEntrada) " +
+           consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaEntrada,horaSalida,fichadoEntrada); " +
                     "VALUES ('{0}','{1}','{2}','{3}','{4}');", fichaje.nifEmpleado, fichaje.dia.ToString("yyyy/MM/dd"), fichaje.horaEntrada.ToString(),fichaje.horaSalida.ToString(),1);
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
@@ -71,8 +71,10 @@ namespace ActEv6
         {
             int resultado;
             string consulta;
-            consulta = string.Format("INSERT INTO fichajes (NIFempleado,dia,horaSalida,fichadoSalida) " +
-                     "VALUES ('{0}','{1}','{2}','{3}';", fichaje.nifEmpleado, fichaje.dia.ToString("yyyy/MM/dd"), fichaje.horaSalida, false);
+            // UPDATE nombretabla SET nombrecampo = valorcampo WHERE condiciones;
+            // UPDATE fichajes SET fichadoEntrada=  WHERE fichadoSalida= 
+            consulta = string.Format("INSERT INTO fichajes(NIFempleado, dia, horaEntrada, horaSalida, fichadoEntrada);" +
+                     "VALUES ('{0}','{1}','{2}','{3}','{4}';", fichaje.nifEmpleado, fichaje.dia.ToString("yyyy/MM/dd"), fichaje.horaSalida.ToString(), 0);
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado = comando.ExecuteNonQuery();
