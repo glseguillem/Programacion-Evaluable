@@ -79,30 +79,30 @@ namespace ActEv6
             return resultado;
         }
 
-        public static List<Fichaje> Permanencia(MySqlConnection conexion, DateTime diaInicio, DateTime diaFin)
-        {
-            List<Fichaje> fichajes = new List<Fichaje>();
-            string consulta = string.Format("SELECT * FROM fichajes WHERE dia BETWEEN '{0}' and '{1}';", diaInicio, diaFin);
+        //public static List<Fichaje> Permanencia(MySqlConnection conexion, DateTime diaInicio, DateTime diaFin)
+        //{
+        //    List<Fichaje> fichajes = new List<Fichaje>();
+        //    string consulta = string.Format("SELECT * FROM fichajes WHERE dia BETWEEN '{0}' and '{1}';", diaInicio, diaFin);
 
-            MySqlCommand commando = new MySqlCommand(consulta, conexion);
-            MySqlDataReader reader = commando.ExecuteReader();
-            if (reader.HasRows)
-            {
-                Fichaje f = new Fichaje();
-                while (reader.Read())
-                {
-                    f.id = reader.GetInt16(0);
-                    f.nifEmpleado = reader.GetString(1);
-                    f.dia = reader.GetDateTime(2);
-                    f.horaEntrada = reader.GetDateTime(3);
-                    f.horaSalida = reader.GetDateTime(4);
-                    f.fichadoEntrada = reader.GetBoolean(5);
-                    f.fichadoEntrada = reader.GetBoolean(6);
-                }
-                reader.Close();
-            }
-            return fichajes;
-        }
+        //    MySqlCommand commando = new MySqlCommand(consulta, conexion);
+        //    MySqlDataReader reader = commando.ExecuteReader();
+        //    if (reader.HasRows)
+        //    {
+        //        Fichaje f = new Fichaje();
+        //        while (reader.Read())
+        //        {
+        //            f.id = reader.GetInt16(0);
+        //            f.nifEmpleado = reader.GetString(1);
+        //            f.dia = reader.GetDateTime(2);
+        //            f.horaEntrada = reader.GetDateTime(3);
+        //            f.horaSalida = reader.GetDateTime(4);
+        //            f.fichadoEntrada = reader.GetBoolean(5);
+        //            f.fichadoEntrada = reader.GetBoolean(6);
+        //        }
+        //        reader.Close();
+        //    }
+        //    return fichajes;
+        //}
 
         public static List<Fichaje> BuscaFichajes(MySqlConnection Conexion, string consulta)
         {

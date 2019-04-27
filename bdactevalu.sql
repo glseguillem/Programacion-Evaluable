@@ -12,7 +12,7 @@ claveAdmin varchar(10) DEFAULT NULL
 
 
 CREATE TABLE fichajes (
-id int not null,
+id int not NULL,
 NIFempleado VARCHAR(10) NOT NULL,
 dia date NOT NULL,
 horaEntrada VARCHAR(20) NULL,
@@ -20,5 +20,4 @@ horaSalida VARCHAR(20) NULL,
 fichadoEntrada tinyint(1) NOT NULL,
 fichadoSalida tinyint(1) NOT NULL,
 foreign key(NIFempleado) references empleados(NIF),
-primary key(id)
-);fichajes
+primary key(id);

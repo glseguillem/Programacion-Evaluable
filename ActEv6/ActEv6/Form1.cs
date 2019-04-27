@@ -76,7 +76,17 @@ namespace ActEv6
 
         private void btnPresencia_Click(object sender, EventArgs e)
         {
-            string consulta = string.Format("SELECT nombre,apellido,horaEntrada FROM empleados INNER JOIN fichajes ON horaEntrada IS NOT NULL and horaSalida IS NULL;");
+            string consulta = string.Format("SELECT nombre,apellido,horaEntrada FROM empleados INNER JOIN fichajes ON horaEntrada IS NOT NULL;");
+            try
+            {
+                bdactevalu.AbrirConexion();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            bdactevalu.CerrarConexion();
         }
 
         private void btnPermanencia_Click(object sender, EventArgs e) 
@@ -87,57 +97,85 @@ namespace ActEv6
             }
             catch (Exception ex)
             {
-
+                
             }
-            int horas=0;
-            int minutos=0; 
+            int horas = 0;
+            int minutos = 0;
+            int segundos = 0;
             string tiempo;
 
-            List<Fichaje> fichajes = Fichaje.Permanencia(bdactevalu.Conexion,Convert.ToDateTime(dtpInicio.Value.ToShortDateString()), Convert.ToDateTime(dtpFin.Value.ToShortDateString()));
+            List<Fichaje> fichajes = Fichaje.BuscaFichajes(bdactevalu.Conexion, "SELECT * FROM fichajes;");//obtengo todos los fichajes de la base de datos
+            List<Fichaje> fResultado = new List<Fichaje>();
             List<int> listaHoras = new List<int>();
             List<int> listaMinutos = new List<int>();
-            for (int i = 0; i < fichajes.Count; i++)
+            List<int> listaSegundos = new List<int>();
+            for (int i = 0; i < fichajes.Count-1; i++)
             {
-                if (fichajes[i].FichadoSalida)
+                if (fichajes[i].HoraEntrada<dtpFin.Value || fichajes[i].HoraSalida>dtpInicio.Value)//obtengo los fichajes que estén en parte dentro del intervalo de fechas
                 {
-                    tiempo = Convert.ToString(fichajes[i].HoraSalida - fichajes[i].HoraEntrada);
-                }
-                else
-                {
-                    tiempo = Convert.ToString(Convert.ToDateTime(DateTime.Today.ToShortTimeString()) - fichajes[i].HoraEntrada);
-                }
-
-                if (tiempo[1] == ':')
-                {
-                    listaHoras.Add(tiempo[0]);
-                    listaMinutos.Add(tiempo[2] * 10 + tiempo[3]);
-                    if (tiempo[6] == 'P')
-                    {
-                        listaHoras[i] += 12;
-                    }
-                }
-                else
-                {
-                    listaHoras.Add(tiempo[0] * 10 + tiempo[1]);
-                    listaMinutos.Add(tiempo[3] * 10 + tiempo[4]);
-                    if (tiempo[7] == 'P')
-                    {
-                        listaHoras[i] += 12;
-                    }
+                    fResultado.Add(fichajes[i]);
                 }
             }
 
-            for (int i = 0; i < fichajes.Count; i++)
+            for (int i = 0; i < fResultado.Count; i++)
+            {
+                //Comprobación del tiempo del fichaje que está dentro del intervalo
+                if (fResultado[i].HoraSalida<dtpFin.Value && fResultado[i].HoraEntrada>dtpInicio.Value)//compruebo si todo el tiempo del fichaje está dentro del interalo
+                {
+                    tiempo = Convert.ToString(fResultado[i].HoraSalida - fResultado[i].HoraEntrada);
+                }
+                else if(fResultado[i].HoraEntrada>dtpInicio.Value )//compruebo si el fichaje de entrada empieza dentro del intervalo
+                {
+                    if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
+                    {
+                        tiempo = Convert.ToString(DateTime.Now - fResultado[i].HoraEntrada);
+                    }
+                    else if(fResultado[i].HoraSalida>dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
+                    {
+                        tiempo = Convert.ToString(dtpFin.Value - fResultado[i].HoraSalida);
+                    }
+                    else
+                    {
+                        tiempo = Convert.ToString(fResultado[i].HoraSalida - fResultado[i].HoraEntrada);
+                    }
+                }
+                else//el fichaje de entrada empieza antes que el intervalo
+                {
+                    if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
+                    {
+                        tiempo = Convert.ToString(DateTime.Now - dtpInicio.Value);
+                    }
+                    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
+                    {
+                        tiempo = Convert.ToString(dtpFin.Value - dtpInicio.Value);
+                    }
+                    else
+                    {
+                        tiempo = Convert.ToString(fResultado[i].HoraSalida - dtpInicio.Value);
+                    }
+                }
+                
+                listaHoras.Add((Convert.ToInt16(tiempo[11]) * 10) + Convert.ToInt16(tiempo[12]));
+                listaMinutos.Add((Convert.ToInt16(tiempo[14]) * 10) + Convert.ToInt16(tiempo[15]));
+                listaHoras.Add((Convert.ToInt16(tiempo[17]) * 10) + Convert.ToInt16(tiempo[18]));
+            }
+
+            for (int i = 0; i < fResultado.Count; i++)
             {
                 horas += listaHoras[i];
                 minutos += listaMinutos[i];
+                if (segundos>=60)
+                {
+                    segundos -= 60;
+                    minutos++;
+                }
                 if (minutos>=60)
                 {
                     minutos -= 60;
                     horas++;
                 }
             }
-
+            dtgInfo.Columns.Clear();
             dtgInfo.Columns.Add("id", "ID");
             dtgInfo.Columns.Add("NIFempleado", "NIF empleado");
             dtgInfo.Columns.Add("dia", "dia");
@@ -147,7 +185,7 @@ namespace ActEv6
 
             for (int i = 0; i < fichajes.Count; i++)
             {
-                dtgInfo.Rows.Add(fichajes[i].Id, fichajes[i].NifEmpleado, fichajes[i].Dia, fichajes[i].HoraEntrada, fichajes[i].HoraSalida, listaHoras+" h, "+listaMinutos+" min");
+                dtgInfo.Rows.Add(fichajes[i].Id, fichajes[i].NifEmpleado, fichajes[i].Dia, fichajes[i].HoraEntrada, fichajes[i].HoraSalida, listaHoras[i]+" h, "+listaMinutos[i]+" min, "+listaSegundos[i]+" s");
             }
             bdactevalu.CerrarConexion();
         }
