@@ -58,8 +58,6 @@ namespace ActEv6
             //    MessageBox.Show("datos incorrectos");
             //}
             bdactevalu.CerrarConexion();
-            //ToShortDateString() --> "5/16/2001"
-            //ToShortTimeString() --> "3:02 AM"
         }
 
         private void btnSalida_Click(object sender, EventArgs e)
@@ -130,43 +128,76 @@ namespace ActEv6
             for (int i = 0; i < fResultado.Count; i++)
             {
                 //Comprobación del tiempo del fichaje que está dentro del intervalo
-                if (fResultado[i].HoraSalida < dtpFin.Value && fResultado[i].HoraEntrada > dtpInicio.Value)//compruebo si todo el tiempo del fichaje está dentro del interalo
+                
+                //if (DateTime.Compare(fResultado[i].HoraSalida, dtpFin.Value) <= 0 && DateTime.Compare(fResultado[i].HoraEntrada, dtpInicio.Value)>=0)//compruebo si todo el tiempo del fichaje está dentro del interalo
+                //{
+                //    inicio = fResultado[i].HoraEntrada;
+                //    fin = fResultado[i].HoraSalida;
+                //}
+                if (DateTime.Compare(fResultado[i].HoraEntrada, dtpInicio.Value)>=0)
                 {
                     inicio = fResultado[i].HoraEntrada;
-                    fin = fResultado[i].HoraSalida;
                 }
-                else if (fResultado[i].HoraEntrada > dtpInicio.Value)//compruebo si el fichaje de entrada empieza dentro del intervalo
-                {
-                    inicio = fResultado[i].HoraEntrada;
-                    if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
-                    {
-                        fin = DateTime.Now;
-                    }
-                    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
-                    {
-                        fin = dtpFin.Value;
-                    }
-                    else
-                    {
-                        fin = fResultado[i].HoraSalida;
-                    }
-                }
-                else//el fichaje de entrada empieza antes que el intervalo
+                else
                 {
                     inicio = dtpInicio.Value;
-                    if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
-                    {
-                        fin = DateTime.Now;
-                    }
-                    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
-                    {
-                        fin = dtpFin.Value;
-                    }
-                    else
-                    {
-                        fin = fResultado[i].HoraSalida;
-                    }
                 }
+                if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
+                {
+                    fin = DateTime.Now;
+                }
+                else if (DateTime.Compare(fResultado[i].HoraSalida, dtpFin.Value)>0)//compruebo si la hora del fichaje está fuera del intervalo
+                {
+                    fin = dtpFin.Value;
+                }
+                else
+                {
+                    fin = fResultado[i].HoraSalida;
+                }
+                if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
+                //    {
+                //        fin = DateTime.Now;
+                //    }
+                //    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
+                //    {
+                //        fin = dtpFin.Value;
+                //    }
+                //    else
+                //    {
+                //        fin = fResultado[i].HoraSalida;
+                //    }
+                //else if (fResultado[i].HoraEntrada > dtpInicio.Value)//compruebo si el fichaje de entrada empieza dentro del intervalo
+                //{
+                //    inicio = fResultado[i].HoraEntrada;
+                //    if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
+                //    {
+                //        fin = DateTime.Now;
+                //    }
+                //    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
+                //    {
+                //        fin = dtpFin.Value;
+                //    }
+                //    else
+                //    {
+                //        fin = fResultado[i].HoraSalida;
+                //    }
+                //}
+                //else//el fichaje de entrada empieza antes que el intervalo
+                //{
+                //    inicio = dtpInicio.Value;
+                //    if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
+                //    {
+                //        fin = DateTime.Now;
+                //    }
+                //    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
+                //    {
+                //        fin = dtpFin.Value;
+                //    }
+                //    else
+                //    {
+                //        fin = fResultado[i].HoraSalida;
+                //    }
+                //}
                 res = RestaHoras(inicio, fin);
                 
                 listaDias.Add(res[0]);
@@ -203,6 +234,7 @@ namespace ActEv6
             {
                 dtgInfo.Rows.Add(fResultado[i].Id, fResultado[i].NifEmpleado, fResultado[i].Dia, fResultado[i].HoraEntrada, fResultado[i].HoraSalida, listaDias[i]+" d, "+listaHoras[i]+" h, "+listaMinutos[i]+" min, "+listaSegundos[i]+" s");
             }
+            MessageBox.Show("El tiempo total de fichajes es: " + horas + "h " + minutos + "min " + segundos + "s");
             bdactevalu.CerrarConexion();
         }
 
@@ -221,8 +253,6 @@ namespace ActEv6
 
         private int[] RestaHoras(DateTime inicio, DateTime fin)
         {
-            //25/04/2019 14:13:01
-            //0123456789+12345678
             int dia1;
             int dia2;
             int hora1;
@@ -241,14 +271,24 @@ namespace ActEv6
 
             fecha1 = Convert.ToString(inicio);
             fecha2 = Convert.ToString(fin);
-            hora1 = fecha1[11] * 10 + fecha1[12];
-            minuto1 = fecha1[14] * 10 + fecha1[15];
-            segundo1 = fecha1[17] * 10 + fecha1[18];
-            hora2 = fecha2[11] * 10 + fecha2[12];
-            minuto2 = fecha2[14] * 10 + fecha2[15];
-            segundo2 = fecha2[17] * 10 + fecha2[18];
-            dia1 = fecha1[0] * 10 + fecha1[1];
-            dia2 = fecha2[0] * 10 + fecha2[1];
+
+            hora1 = Convert.ToInt16(Convert.ToString(fecha1[fecha1.Length - 7]));//No puedo pasar directamente de char a int, da valores extraños
+            if (fecha1.Length==19)
+            {
+                hora1 += Convert.ToInt16(Convert.ToString(fecha1[fecha1.Length - 8])) * 10;
+            }
+            minuto1 = Convert.ToInt16(Convert.ToString(fecha1[fecha1.Length - 5])) * 10 + Convert.ToInt16(Convert.ToString(fecha1[fecha1.Length - 4]));
+            segundo1 = Convert.ToInt16(Convert.ToString(fecha1[fecha1.Length - 2])) * 10 + Convert.ToInt16(Convert.ToString(fecha1[fecha1.Length-1]));
+            hora2 = Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 7]));
+            if (fecha2.Length == 19)
+            {
+                hora2 += Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 8])) * 10;
+                MessageBox.Show("h2 " + hora2);
+            }
+            minuto2 = Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 5])) * 10 + Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 4]));
+            segundo2 = Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 2])) * 10 + Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 1]));
+            dia1 = Convert.ToInt16(Convert.ToString(fecha1[0])) * 10 + Convert.ToInt16(Convert.ToString(fecha1[1]));
+            dia2 = Convert.ToInt16(Convert.ToString(fecha2[0])) * 10 + Convert.ToInt16(Convert.ToString(fecha2[1]));
             segundoRes = segundo2 - segundo1;
             minutoRes = minuto2 - minuto1;
             horaRes = hora2 - hora1;
@@ -289,12 +329,12 @@ namespace ActEv6
                 horaRes -= 24;
                 diaRes++;
             }
+            MessageBox.Show("hres " + horaRes+" h1 "+hora1+" h2 "+hora2);
             fechaRes[0] = diaRes;
             fechaRes[1] = horaRes;
             fechaRes[2] = minutoRes;
             fechaRes[3] = segundoRes;
             return fechaRes;
         }
-
     }
 }
