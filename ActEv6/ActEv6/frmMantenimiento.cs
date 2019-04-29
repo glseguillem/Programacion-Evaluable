@@ -204,5 +204,18 @@ namespace ActEv6
             bdactevalu.CerrarConexion();
         }
 
+        private void txtNIF_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void chkAdmin_CheckedChanged(object sender, EventArgs e)
+        {
+            txtClave.Enabled = chkAdmin.Checked;
+            if (!chkAdmin.Checked)
+            {
+                txtClave.Clear();
+            }
+        }
     }
 }

@@ -123,6 +123,7 @@
             this.txtNIF.Name = "txtNIF";
             this.txtNIF.Size = new System.Drawing.Size(187, 26);
             this.txtNIF.TabIndex = 8;
+            this.txtNIF.TextChanged += new System.EventHandler(this.txtNIF_TextChanged);
             // 
             // txtNombre
             // 
@@ -200,6 +201,7 @@
             this.chkAdmin.TabIndex = 16;
             this.chkAdmin.Text = "Administrador";
             this.chkAdmin.UseVisualStyleBackColor = true;
+            this.chkAdmin.CheckedChanged += new System.EventHandler(this.chkAdmin_CheckedChanged);
             // 
             // errorProvider1
             // 

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+
 
 namespace ActEv6
 {
@@ -78,7 +80,7 @@ namespace ActEv6
             //if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1 && Fichaje.BuscaFichajes(bdactevalu.conexion,consultaBuscarFichaje).Count==1)
             //{
                 Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
-                MessageBox.Show(Convert.ToString(Fichaje.FichajeSalida(bdactevalu.Conexion, fichaje)));
+                MessageBox.Show(Convert.ToString(Fichaje.FichajeSalida(bdactevalu.Conexion, txtNif.Text)));
             //}
             //else
             //{
@@ -90,7 +92,7 @@ namespace ActEv6
 
         private void btnPresencia_Click(object sender, EventArgs e)
         {
-            string consulta = string.Format("SELECT nombre,apellido,horaEntrada FROM empleados INNER JOIN fichajes ON horaEntrada IS NOT NULL;");
+            string consulta = string.Format("SELECT nombre,apellido,horaEntrada FROM empleados INNER JOIN fichajes ON horaEntrada IS NOT NULL and horaSalida like '{0}';",DateTime.MinValue.ToString());
             try
             {
                 bdactevalu.AbrirConexion();
@@ -100,6 +102,28 @@ namespace ActEv6
 
             }
 
+            MySqlCommand comando = new MySqlCommand(consulta, bdactevalu.Conexion);
+            MySqlDataReader reader = comando.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                //limpiar el datagreed
+                dtgInfo.Columns.Clear();
+                //añadir las columnas
+                dtgInfo.Columns.Add("nombre", "Nombre");
+                dtgInfo.Columns.Add("apellido", "Apellido");
+                dtgInfo.Columns.Add("horaEntrada", "Hora de entrada");
+
+                while (reader.Read())
+                {
+                    dtgInfo.Rows.Add(reader.GetString(0),reader.GetString(1),reader.GetString(2));
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay empleados en este momento");
+            }
+            reader.Close();
             bdactevalu.CerrarConexion();
         }
 
@@ -116,7 +140,7 @@ namespace ActEv6
             int horas = 0;
             int minutos = 0;
             int segundos = 0;
-
+            int dias = 0;
             List<Fichaje> fichajes = Fichaje.BuscaFichajes(bdactevalu.Conexion, "SELECT * FROM fichajes;");//obtengo todos los fichajes de la base de datos
             List<Fichaje> fResultado = new List<Fichaje>();
             List<int> listaDias = new List<int>();
@@ -164,49 +188,7 @@ namespace ActEv6
                     fin = fResultado[i].HoraSalida;
                 }
                 if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
-                //    {
-                //        fin = DateTime.Now;
-                //    }
-                //    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
-                //    {
-                //        fin = dtpFin.Value;
-                //    }
-                //    else
-                //    {
-                //        fin = fResultado[i].HoraSalida;
-                //    }
-                //else if (fResultado[i].HoraEntrada > dtpInicio.Value)//compruebo si el fichaje de entrada empieza dentro del intervalo
-                //{
-                //    inicio = fResultado[i].HoraEntrada;
-                //    if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
-                //    {
-                //        fin = DateTime.Now;
-                //    }
-                //    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
-                //    {
-                //        fin = dtpFin.Value;
-                //    }
-                //    else
-                //    {
-                //        fin = fResultado[i].HoraSalida;
-                //    }
-                //}
-                //else//el fichaje de entrada empieza antes que el intervalo
-                //{
-                //    inicio = dtpInicio.Value;
-                //    if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
-                //    {
-                //        fin = DateTime.Now;
-                //    }
-                //    else if (fResultado[i].HoraSalida > dtpFin.Value)//compruebo si la hora del fichaje está fuera del intervalo
-                //    {
-                //        fin = dtpFin.Value;
-                //    }
-                //    else
-                //    {
-                //        fin = fResultado[i].HoraSalida;
-                //    }
-                //}
+               
                 res = RestaHoras(inicio, fin);
                 
                 listaDias.Add(res[0]);
@@ -217,6 +199,7 @@ namespace ActEv6
 
             for (int i = 0; i < fResultado.Count; i++)
             {
+                dias += listaDias[i];
                 horas += listaHoras[i];
                 minutos += listaMinutos[i];
                 if (segundos>=60)
@@ -229,14 +212,19 @@ namespace ActEv6
                     minutos -= 60;
                     horas++;
                 }
+                while (dias > 0)
+                {
+                    dias--;
+                    horas += 24;
+                }
             }
             dtgInfo.Columns.Clear();
             dtgInfo.Columns.Add("id", "ID");
             dtgInfo.Columns.Add("NIFempleado", "NIF empleado");
             dtgInfo.Columns.Add("dia", "dia");
-            dtgInfo.Columns.Add("horaEntrada", "hora de entrada");
-            dtgInfo.Columns.Add("horaSalida", "hora de salida");
-            dtgInfo.Columns.Add("TiempoFichaje", "duración");
+            dtgInfo.Columns.Add("horaEntrada", "Hora de entrada");
+            dtgInfo.Columns.Add("horaSalida", "Hora de salida");
+            dtgInfo.Columns.Add("TiempoFichaje", "Duración");
 
             MessageBox.Show(Convert.ToString(fResultado.Count) + " " + Convert.ToString(listaDias.Count) + " " + Convert.ToString(listaHoras.Count) + " " + Convert.ToString(listaMinutos.Count) + " " + Convert.ToString(listaSegundos.Count) + " ");
             for (int i = 0; i < fResultado.Count; i++)
@@ -247,10 +235,13 @@ namespace ActEv6
             bdactevalu.CerrarConexion();
         }
 
-        private void btnMantenimiento_Click(object sender, EventArgs e)//Falta comprobar errores
+        private void btnMantenimiento_Click(object sender, EventArgs e)
         {
-            frmMantenimiento mantenimiento = new frmMantenimiento();
-            mantenimiento.ShowDialog();
+            if (Usuario.BuscaUsuario(bdactevalu.Conexion,"SELECT * FROM usuarios WHERE NIF LIKE "+txtNif.Text+" AND claveAdmin LIKE "+txtContrasenya.Text+" AND administrador LIKE 0").Count==1)
+            {
+                frmMantenimiento mantenimiento = new frmMantenimiento();
+                mantenimiento.ShowDialog();
+            }
         }
 
 

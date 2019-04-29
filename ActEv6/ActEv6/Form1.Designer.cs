@@ -45,6 +45,8 @@
             this.lblInicio = new System.Windows.Forms.Label();
             this.lblFin = new System.Windows.Forms.Label();
             this.dtpFin = new System.Windows.Forms.DateTimePicker();
+            this.lblContrasenya = new System.Windows.Forms.Label();
+            this.txtContrasenya = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dtgInfo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -138,7 +140,7 @@
             // txtNif
             // 
             this.txtNif.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNif.Location = new System.Drawing.Point(64, 59);
+            this.txtNif.Location = new System.Drawing.Point(64, 30);
             this.txtNif.Name = "txtNif";
             this.txtNif.Size = new System.Drawing.Size(197, 41);
             this.txtNif.TabIndex = 8;
@@ -156,16 +158,16 @@
             // dtgInfo
             // 
             this.dtgInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgInfo.Location = new System.Drawing.Point(64, 135);
+            this.dtgInfo.Location = new System.Drawing.Point(64, 152);
             this.dtgInfo.Name = "dtgInfo";
-            this.dtgInfo.Size = new System.Drawing.Size(698, 243);
+            this.dtgInfo.Size = new System.Drawing.Size(698, 226);
             this.dtgInfo.TabIndex = 9;
             // 
             // lblNif
             // 
             this.lblNif.AutoSize = true;
             this.lblNif.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNif.Location = new System.Drawing.Point(60, 32);
+            this.lblNif.Location = new System.Drawing.Point(60, 6);
             this.lblNif.Name = "lblNif";
             this.lblNif.Size = new System.Drawing.Size(40, 24);
             this.lblNif.TabIndex = 10;
@@ -204,11 +206,32 @@
             this.dtpFin.Size = new System.Drawing.Size(200, 20);
             this.dtpFin.TabIndex = 15;
             // 
+            // lblContrasenya
+            // 
+            this.lblContrasenya.AutoSize = true;
+            this.lblContrasenya.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblContrasenya.Location = new System.Drawing.Point(60, 74);
+            this.lblContrasenya.Name = "lblContrasenya";
+            this.lblContrasenya.Size = new System.Drawing.Size(207, 24);
+            this.lblContrasenya.TabIndex = 18;
+            this.lblContrasenya.Text = "CONTRASEÑA ADMIN";
+            this.lblContrasenya.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtContrasenya
+            // 
+            this.txtContrasenya.Font = new System.Drawing.Font("Consolas", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtContrasenya.Location = new System.Drawing.Point(64, 98);
+            this.txtContrasenya.Name = "txtContrasenya";
+            this.txtContrasenya.Size = new System.Drawing.Size(197, 41);
+            this.txtContrasenya.TabIndex = 17;
+            // 
             // s
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblContrasenya);
+            this.Controls.Add(this.txtContrasenya);
             this.Controls.Add(this.lblFin);
             this.Controls.Add(this.dtpFin);
             this.Controls.Add(this.lblInicio);
@@ -253,6 +276,8 @@
         private System.Windows.Forms.Label lblInicio;
         private System.Windows.Forms.Label lblFin;
         private System.Windows.Forms.DateTimePicker dtpFin;
+        private System.Windows.Forms.Label lblContrasenya;
+        private System.Windows.Forms.TextBox txtContrasenya;
     }
 }
 

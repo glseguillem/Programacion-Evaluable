@@ -54,7 +54,7 @@ namespace ActEv6
         /// </summary>
         /// <param name="conexion">Conexión con la base de datos</param>
         /// <param name="fichaje">Fichaje a insertar</param>
-        /// <returns></returns>
+        /// <returns>Número de registros afectados</returns>
         public static int FichajeEntrada(MySqlConnection conexion, Fichaje fichaje)
         {
            int resultado;
@@ -67,45 +67,34 @@ namespace ActEv6
             return resultado;
         }
         
-        public static int FichajeSalida(MySqlConnection conexion, Fichaje fichaje)//falta cambiar consulta
+        /// <summary>
+        /// Modifica el fichaje de entrada correspondiente para dar los valores de salida
+        /// </summary>
+        /// <param name="conexion">Conexión a la base de datos</param>
+        /// <param name="nif">Nif del empleado</param>
+        /// <returns>Número de registros afectados</returns>
+        public static int FichajeSalida(MySqlConnection conexion, string nif)//falta cambiar consulta
         {
             int resultado;
             string consulta;
             // UPDATE nombretabla SET nombrecampo = valorcampo WHERE condiciones;
-            // UPDATE fichajes SET fichadoEntrada=  WHERE fichadoSalida= 
-            consulta = string.Format("INSERT INTO fichajes(NIFempleado, dia, horaEntrada, horaSalida, fichadoEntrada);" +
-                     "VALUES ('{0}','{1}','{2}','{3}','{4}';", fichaje.nifEmpleado, fichaje.dia.ToString("yyyy/MM/dd"), fichaje.horaSalida.ToString(), 0);
+            // UPDATE fichajes SET fichadoEntrada=true(0)  WHERE fichadoSalida=false(0)
+            //UPDATE fichajes SET fichadoSalida= false(1) Where fichadoSalida = true(0);
+
+            //"UPDATE fichajes SET fichadoSalida = 1 AND SET horaSalida = '{0}' WHERE NIFempleado LIKE '{1}' AND fichadoSalida LIKE 0);", DateTime.Now, nif
+            consulta = string.Format("UPDATE fichajes SET fichadoEntrada = 1  WHERE fichadoSalida = false(0);"); 
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado = comando.ExecuteNonQuery();
             return resultado;
         }
 
-        //public static List<Fichaje> Permanencia(MySqlConnection conexion, DateTime diaInicio, DateTime diaFin)
-        //{
-        //    List<Fichaje> fichajes = new List<Fichaje>();
-        //    string consulta = string.Format("SELECT * FROM fichajes WHERE dia BETWEEN '{0}' and '{1}';", diaInicio, diaFin);
-
-        //    MySqlCommand commando = new MySqlCommand(consulta, conexion);
-        //    MySqlDataReader reader = commando.ExecuteReader();
-        //    if (reader.HasRows)
-        //    {
-        //        Fichaje f = new Fichaje();
-        //        while (reader.Read())
-        //        {
-        //            f.id = reader.GetInt16(0);
-        //            f.nifEmpleado = reader.GetString(1);
-        //            f.dia = reader.GetDateTime(2);
-        //            f.horaEntrada = reader.GetDateTime(3);
-        //            f.horaSalida = reader.GetDateTime(4);
-        //            f.fichadoEntrada = reader.GetBoolean(5);
-        //            f.fichadoEntrada = reader.GetBoolean(6);
-        //        }
-        //        reader.Close();
-        //    }
-        //    return fichajes;
-        //}
-
+        /// <summary>
+        /// Devuelve el resultado de una consulta (SELECT) en una lista de fichajes
+        /// </summary>
+        /// <param name="Conexion">Conexión a la base de datos</param>
+        /// <param name="consulta">Consulta</param>
+        /// <returns>Lista de fichajes</returns>
         public static List<Fichaje> BuscaFichajes(MySqlConnection Conexion, string consulta)
         {
             List<Fichaje> lista = new List<Fichaje>();
@@ -134,6 +123,12 @@ namespace ActEv6
             return lista;
         }
 
+        /// <summary>
+        /// Elimina un fichaje
+        /// </summary>
+        /// <param name="conexion">Conexión a la base de datos</param>
+        /// <param name="nif">Nif del empleado a eliminar</param>
+        /// <returns>Número de registros afectados</returns>
         public static int EliminarFichaje(MySqlConnection conexion, string nif)
         {
             int res;
