@@ -38,7 +38,8 @@ namespace ActEv6
 
         private void btnEntrada_Click(object sender, EventArgs e)//Falta probarlo, creo que dará error porque aqui utilizo string y en la base de datos date
         {
-            string consulta=string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';",txtNif.Text);
+            string consultaBuscarUsuario = string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';",txtNif.Text);
+            string consultaBuscarFichaje = string.Format("SELECT * FROM fichajes WHERE NIFEmpleado LIKE '{0}' AND fichadoSalida LIKE 0",txtNif.Text);
             try
             {
                 bdactevalu.AbrirConexion();
@@ -46,23 +47,26 @@ namespace ActEv6
             {
                 
             }
-            
-            
-            //if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1)
+
+
+            //if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1 && Fichaje.BuscaFichajes(bdactevalu.conexion,consultaBuscarFichaje).Count==0)
             //{
                 Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
                 MessageBox.Show(Convert.ToString(Fichaje.FichajeEntrada(bdactevalu.Conexion, fichaje)));
             //}
             //else
             //{
-            //    MessageBox.Show("datos incorrectos");
+            //    MessageBox.Show("ERROR");
             //}
             bdactevalu.CerrarConexion();
         }
 
         private void btnSalida_Click(object sender, EventArgs e)
         {
-            string consulta = string.Format("SELECT * FROM fichajes WHERE NIF LIKE '{0}';",txtNif.Text);
+
+            string consultaBuscarUsuario = string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';", txtNif.Text);
+            string consultaBuscarFichaje = string.Format("SELECT * FROM fichajes WHERE NIFEmpleado LIKE '{0}' AND fichadoSalida LIKE 0", txtNif.Text);
+
             try
             {
                 bdactevalu.AbrirConexion();
@@ -71,10 +75,15 @@ namespace ActEv6
             {
 
             }
-
-            Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
-            MessageBox.Show(Convert.ToString(Fichaje.FichajeSalida(bdactevalu.Conexion, fichaje)));
-
+            //if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1 && Fichaje.BuscaFichajes(bdactevalu.conexion,consultaBuscarFichaje).Count==1)
+            //{
+                Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
+                MessageBox.Show(Convert.ToString(Fichaje.FichajeSalida(bdactevalu.Conexion, fichaje)));
+            //}
+            //else
+            //{
+            //    MessageBox.Show("NIF incorrecto");
+            //}
             bdactevalu.CerrarConexion();
 
         }
@@ -329,7 +338,6 @@ namespace ActEv6
                 horaRes -= 24;
                 diaRes++;
             }
-            MessageBox.Show("hres " + horaRes+" h1 "+hora1+" h2 "+hora2);
             fechaRes[0] = diaRes;
             fechaRes[1] = horaRes;
             fechaRes[2] = minutoRes;

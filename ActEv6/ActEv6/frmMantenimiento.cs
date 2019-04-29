@@ -124,19 +124,21 @@ namespace ActEv6
             try
             {
                 int resultado;
+                int resFichajes;
 
                 if (dtgUsuarios.SelectedRows.Count == 1)
                 {
                     MessageBox.Show("Fila seleccionada");
                     string nif = (string)dtgUsuarios.CurrentRow.Cells[0].Value;
 
-                    DialogResult eliminacion = MessageBox.Show("¿Estas seguro que quieres borrar?",
+                    DialogResult eliminacion = MessageBox.Show("¿Estas seguro que quieres borrar? también se eliminará toda la información de los fichajes de este usuario",
                                                 "Eliminación", MessageBoxButtons.YesNo);
 
                     if (eliminacion == DialogResult.Yes)
                     {
                         if (bdactevalu.AbrirConexion())
                         {
+                            resFichajes = Fichaje.EliminarFichaje(bdactevalu.Conexion, nif);
                             resultado = Usuario.EliminaUsuario(bdactevalu.Conexion,nif);
                             MessageBox.Show("Registros afectados: " + resultado);
                         }

@@ -133,5 +133,14 @@ namespace ActEv6
             reader.Close();
             return lista;
         }
+
+        public static int EliminarFichaje(MySqlConnection conexion, string nif)
+        {
+            int res;
+            string consulta = string.Format("DELETE FROM fichajes WHERE NIFempleado LIKE ('{0}');", nif);
+            MySqlCommand comando = new MySqlCommand(consulta, conexion);
+            res = comando.ExecuteNonQuery();
+            return res;
+        }
     }
 }
