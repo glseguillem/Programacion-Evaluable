@@ -87,7 +87,6 @@ namespace ActEv6
             //    MessageBox.Show("NIF incorrecto");
             //}
             bdactevalu.CerrarConexion();
-
         }
 
         private void btnPresencia_Click(object sender, EventArgs e)
@@ -237,11 +236,11 @@ namespace ActEv6
 
         private void btnMantenimiento_Click(object sender, EventArgs e)
         {
-            if (Usuario.BuscaUsuario(bdactevalu.Conexion,"SELECT * FROM usuarios WHERE NIF LIKE "+txtNif.Text+" AND claveAdmin LIKE "+txtContrasenya.Text+" AND administrador LIKE 0").Count==1)
-            {
+            //if (Usuario.BuscaUsuario(bdactevalu.Conexion,"SELECT * FROM usuarios WHERE NIF LIKE "+txtNif.Text+" AND claveAdmin LIKE "+txtContrasenya.Text+" AND administrador LIKE 0").Count==1)
+            //{
                 frmMantenimiento mantenimiento = new frmMantenimiento();
                 mantenimiento.ShowDialog();
-            }
+            //}
         }
 
 

@@ -20,4 +20,4 @@ horaSalida VARCHAR(20) NULL,
 fichadoEntrada tinyint(1) NOT NULL,
 fichadoSalida tinyint(1) NOT NULL,
 foreign key(NIFempleado) references empleados(NIF),
-primary key(id);
+primary key(id));

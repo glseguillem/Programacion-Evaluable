@@ -14,13 +14,20 @@ namespace ActEv6
         private string apellidos;
         private bool administrador;
         private string contrasenyaAdministrador;
-
+        
         public string Nif { set { nif = value; } get { return nif; } }
         public string Nombre { set { nombre = value; } get { return nombre; } }
         public string Apellidos { set { apellidos = value; } get { return apellidos; } }
         public bool Administrador { set { administrador = value; } get { return administrador; } }
         public string ContrasenyaAdministrador { set { contrasenyaAdministrador = value; } get { return contrasenyaAdministrador; } }
 
+        /// <summary>
+        /// Rellena los datos necesarios para aun usuario normal administrador
+        /// </summary>
+        /// <param name="nif">Nif del usuario</param>
+        /// <param name="nombre">Nombre del usuario</param>
+        /// <param name="apellidos">Apellidos del usuario</param>
+        /// <param name="administrador">Indicar si es administrador o no</param>
         public Usuario(string nif, string nombre, string apellidos, bool administrador)
         {
             this.nif = nif;
@@ -29,6 +36,14 @@ namespace ActEv6
             this.administrador = administrador;
         }
 
+        /// <summary>
+        /// Rellena los datos necesarios para aun usuario administrador
+        /// </summary>
+        /// <param name="nif">Nif del usuario</param>
+        /// <param name="nombre">Nombre del usuario</param>
+        /// <param name="apellidos">Apellidos del usuario</param>
+        /// <param name="administrador">Indicar si es administrador o no</param>
+        /// <param name="contrasenyaAdministrador">Contraseña de administrador del usuario</param>
         public Usuario(string nif, string nombre, string apellidos, bool administrador, string contrasenyaAdministrador)
         {
             this.nif = nif;
@@ -38,12 +53,22 @@ namespace ActEv6
             this.contrasenyaAdministrador = contrasenyaAdministrador;
         }
 
+        /// <summary>
+        /// Constructor vacio
+        /// </summary>
         public Usuario()
         {
         }
 
-        
 
+        /// <summary>
+        /// Comprueba si la letra del nif es correcta
+        /// </summary>
+        /// <param name="nif"></param>
+        /// <param name="nombre">Nif del empleado</param>
+        /// <param name="apellidos"></param>
+        /// <param name="administrador"></param>
+        /// <returns>Número de registros afectados</returns>
         public static bool ComprobarLetraNif(string nif)
         {
             if (nif.Length == 9)
@@ -58,7 +83,7 @@ namespace ActEv6
                     nifAux += nif[i];
                 }
 
-                try
+                try//Si numerosNif no se puede convertir a int daría error
                 {
                     numerosNif = Convert.ToInt16(nifAux);
                     if (letras[numerosNif % 23] == nif[8])
@@ -79,6 +104,12 @@ namespace ActEv6
 
         }
 
+        /// <summary>
+        /// Busca usuarios en la base de datos según la consulta que reciba
+        /// </summary>
+        /// <param name="Conexion">Conexión a la base de datos</param>
+        /// <param name="consulta">Consulta abstract lanzar en la base de datos(Select)</param>
+        /// <returns>Lista de usuarios como resultado de la consulta</returns>
         public static List<Usuario> BuscaUsuario (MySqlConnection Conexion, string consulta)
         {
             List<Usuario> lista = new List<Usuario>();
@@ -100,6 +131,14 @@ namespace ActEv6
             return lista;
         }
 
+        /// <summary>
+        /// Inserta un usuario en la base de datos
+        /// </summary>
+        /// <param name="nif"></param>
+        /// <param name="nombre">Nif del empleado</param>
+        /// <param name="apellidos"></param>
+        /// <param name="administrador"></param>
+        /// <returns>Número de registros afectados</returns>
         public static int AñadirUsuario(MySqlConnection conexion, Usuario usu)
         {
             int resultado;

@@ -80,9 +80,8 @@ namespace ActEv6
             // UPDATE nombretabla SET nombrecampo = valorcampo WHERE condiciones;
             // UPDATE fichajes SET fichadoEntrada=true(0)  WHERE fichadoSalida=false(0)
             //UPDATE fichajes SET fichadoSalida= false(1) Where fichadoSalida = true(0);
-
             //"UPDATE fichajes SET fichadoSalida = 1 AND SET horaSalida = '{0}' WHERE NIFempleado LIKE '{1}' AND fichadoSalida LIKE 0);", DateTime.Now, nif
-            consulta = string.Format("UPDATE fichajes SET fichadoEntrada = 1  WHERE fichadoSalida = false(0);"); 
+            consulta = string.Format("UPDATE fichajes SET fichadoEntrada = 1 WHERE fichadoSalida = 0;"); 
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado = comando.ExecuteNonQuery();
