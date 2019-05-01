@@ -122,6 +122,7 @@ namespace ActEv6
             else
             {
                 MessageBox.Show("No hay empleados en este momento");
+                dtgInfo.Columns.Clear();
             }
             reader.Close();
             bdactevalu.CerrarConexion();
@@ -152,7 +153,6 @@ namespace ActEv6
             int[] res = new int[4];//Array para guardar el resultado del método restaHoras
             for (int i = 0; i < fichajes.Count; i++)
             {
-                MessageBox.Show("fHoraEntrada " + fichajes[i].HoraEntrada + " fHoraSalida " + fichajes[i].HoraSalida + " dtpInicio " + dtpInicio.Value + " dtpFin " + dtpFin.Value);
                 if (DateTime.Compare(fichajes[i].HoraEntrada,dtpFin.Value) <=0|| DateTime.Compare(fichajes[i].HoraSalida,dtpInicio.Value)>=0)//obtengo los fichajes que estén en parte dentro del intervalo de fechas
                 {
                     fResultado.Add(fichajes[i]);
@@ -182,7 +182,6 @@ namespace ActEv6
                 {
                     fin = fResultado[i].HoraSalida;
                 }
-                if (!fResultado[i].FichadoSalida)
                
                 res = RestaHoras(inicio, fin);
                 
@@ -285,7 +284,6 @@ namespace ActEv6
             if (fecha2.Length == 19)
             {
                 hora2 += Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 8])) * 10;
-                MessageBox.Show("h2 " + hora2);
             }
             minuto2 = Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 5])) * 10 + Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 4]));
             segundo2 = Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 2])) * 10 + Convert.ToInt16(Convert.ToString(fecha2[fecha2.Length - 1]));
@@ -299,6 +297,7 @@ namespace ActEv6
             {
                 diaRes = 1;
             }
+            MessageBox.Show("DiaRes " + diaRes);
 
             if (segundoRes < 0)
             {
