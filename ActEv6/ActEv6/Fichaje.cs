@@ -9,8 +9,6 @@ namespace ActEv6
 {
     class Fichaje
     {
-
-        //	id	NIFempleado	dia	horaEntrada	horaSalida	fichadoEntrada	fichadoSalida
         private int id;
         private string nifEmpleado;
         private DateTime dia;
@@ -81,7 +79,7 @@ namespace ActEv6
             // UPDATE fichajes SET fichadoEntrada=true(0)  WHERE fichadoSalida=false(0)
             //UPDATE fichajes SET fichadoSalida= false(1) Where fichadoSalida = true(0);
             //"UPDATE fichajes SET fichadoSalida = 1 AND SET horaSalida = '{0}' WHERE NIFempleado LIKE '{1}' AND fichadoSalida LIKE 0);", DateTime.Now, nif
-            consulta = string.Format("UPDATE fichajes SET fichadoEntrada = 1 WHERE fichadoSalida = 0;"); 
+            consulta = string.Format("UPDATE fichajes SET fichadoSalida=1,horaSalida='{0}' WHERE fichadoSalida = 0 AND NIFempleado = '{1}';", DateTime.Now, nif); 
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
             resultado = comando.ExecuteNonQuery();

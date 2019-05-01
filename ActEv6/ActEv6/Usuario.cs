@@ -64,11 +64,8 @@ namespace ActEv6
         /// <summary>
         /// Comprueba si la letra del nif es correcta
         /// </summary>
-        /// <param name="nif"></param>
-        /// <param name="nombre">Nif del empleado</param>
-        /// <param name="apellidos"></param>
-        /// <param name="administrador"></param>
-        /// <returns>Número de registros afectados</returns>
+        /// <param name="nif">Nif a vomprobar</param>
+        /// <returns>true si es correcta, false en el caso contrario</returns>
         public static bool ComprobarLetraNif(string nif)
         {
             if (nif.Length == 9)
@@ -134,10 +131,8 @@ namespace ActEv6
         /// <summary>
         /// Inserta un usuario en la base de datos
         /// </summary>
-        /// <param name="nif"></param>
-        /// <param name="nombre">Nif del empleado</param>
-        /// <param name="apellidos"></param>
-        /// <param name="administrador"></param>
+        /// <param name="conexion">Conexión a la base de datos</param>
+        /// <param name="usu">usuario a insertar</param>
         /// <returns>Número de registros afectados</returns>
         public static int AñadirUsuario(MySqlConnection conexion, Usuario usu)
         {
@@ -158,6 +153,12 @@ namespace ActEv6
             return resultado;
         }
 
+        /// <summary>
+        /// Elimina un usuario de la base de datos
+        /// </summary>
+        /// <param name="conexion">Conexión a la base de datos</param>
+        /// <param name="persona">Nif del empleado a eliminar</param>
+        /// <returns></returns>
         public static int EliminaUsuario(MySqlConnection conexion, string persona)
         {
             int retorno;

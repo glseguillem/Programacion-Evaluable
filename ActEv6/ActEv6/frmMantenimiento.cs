@@ -217,5 +217,10 @@ namespace ActEv6
                 txtClave.Clear();
             }
         }
+
+        private void frmMantenimiento_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

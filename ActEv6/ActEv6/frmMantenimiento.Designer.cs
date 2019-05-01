@@ -229,6 +229,7 @@
             this.Controls.Add(this.bntEliminar);
             this.Name = "frmMantenimiento";
             this.Text = "frmMantenimiento";
+            this.Load += new System.EventHandler(this.frmMantenimiento_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgFichajes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgUsuarios)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();

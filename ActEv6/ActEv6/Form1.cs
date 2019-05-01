@@ -38,14 +38,15 @@ namespace ActEv6
             lblFecha.Text = DateTime.Now.ToLongDateString();
         }
 
-        private void btnEntrada_Click(object sender, EventArgs e)//Falta probarlo, creo que dará error porque aqui utilizo string y en la base de datos date
+        private void btnEntrada_Click(object sender, EventArgs e)
         {
-            string consultaBuscarUsuario = string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';",txtNif.Text);
-            string consultaBuscarFichaje = string.Format("SELECT * FROM fichajes WHERE NIFEmpleado LIKE '{0}' AND fichadoSalida LIKE 0",txtNif.Text);
+            string consultaBuscarUsuario = string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';",txtNif.Text);//Consulta para comprobar si el usuario existe
+            string consultaBuscarFichaje = string.Format("SELECT * FROM fichajes WHERE NIFEmpleado LIKE '{0}' AND fichadoSalida LIKE 0",txtNif.Text);//Consulta para comprobar si su ultimo fichaje es de entrada o salida
             try
             {
                 bdactevalu.AbrirConexion();
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 
             }
@@ -136,22 +137,23 @@ namespace ActEv6
             {
                 
             }
-            int horas = 0;
-            int minutos = 0;
-            int segundos = 0;
-            int dias = 0;
+            int horas = 0;//variable para guardar las horas totales
+            int minutos = 0;//variable para guardar los minutos del resultado final
+            int segundos = 0;//variable para guardar los segundos del resultado final
+            int dias = 0; //variable para guardar los dias del resultado final
             List<Fichaje> fichajes = Fichaje.BuscaFichajes(bdactevalu.Conexion, "SELECT * FROM fichajes;");//obtengo todos los fichajes de la base de datos
-            List<Fichaje> fResultado = new List<Fichaje>();
-            List<int> listaDias = new List<int>();
-            List<int> listaHoras = new List<int>();
-            List<int> listaMinutos = new List<int>();
-            List<int> listaSegundos = new List<int>();
-            DateTime inicio;
-            DateTime fin;
-            int[] res = new int[4];
-            for (int i = 0; i < fichajes.Count-1; i++)
+            List<Fichaje> fResultado = new List<Fichaje>();//Lista de fichajes que están dentro del intervalo
+            List<int> listaDias = new List<int>();//Lista de dias de cada fichaje
+            List<int> listaHoras = new List<int>();//Lista de horas de cada fichaje
+            List<int> listaMinutos = new List<int>();//Lista de minutos de cada fichaje
+            List<int> listaSegundos = new List<int>();//Lista de segundos de cada fichaje
+            DateTime inicio;//Fecha de inicio del intervalo
+            DateTime fin;//Fecha de fin del intervalo
+            int[] res = new int[4];//Array para guardar el resultado del método restaHoras
+            for (int i = 0; i < fichajes.Count; i++)
             {
-                if (fichajes[i].HoraEntrada<dtpFin.Value || fichajes[i].HoraSalida>dtpInicio.Value)//obtengo los fichajes que estén en parte dentro del intervalo de fechas
+                MessageBox.Show("fHoraEntrada " + fichajes[i].HoraEntrada + " fHoraSalida " + fichajes[i].HoraSalida + " dtpInicio " + dtpInicio.Value + " dtpFin " + dtpFin.Value);
+                if (DateTime.Compare(fichajes[i].HoraEntrada,dtpFin.Value) <=0|| DateTime.Compare(fichajes[i].HoraSalida,dtpInicio.Value)>=0)//obtengo los fichajes que estén en parte dentro del intervalo de fechas
                 {
                     fResultado.Add(fichajes[i]);
                 }
@@ -159,13 +161,7 @@ namespace ActEv6
 
             for (int i = 0; i < fResultado.Count; i++)
             {
-                //Comprobación del tiempo del fichaje que está dentro del intervalo
-                
-                //if (DateTime.Compare(fResultado[i].HoraSalida, dtpFin.Value) <= 0 && DateTime.Compare(fResultado[i].HoraEntrada, dtpInicio.Value)>=0)//compruebo si todo el tiempo del fichaje está dentro del interalo
-                //{
-                //    inicio = fResultado[i].HoraEntrada;
-                //    fin = fResultado[i].HoraSalida;
-                //}
+                //Comprobaciones necesarias para saber el intervalo de fechas a utilizar
                 if (DateTime.Compare(fResultado[i].HoraEntrada, dtpInicio.Value)>=0)
                 {
                     inicio = fResultado[i].HoraEntrada;
@@ -174,11 +170,11 @@ namespace ActEv6
                 {
                     inicio = dtpInicio.Value;
                 }
-                if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
+                if (!fResultado[i].FichadoSalida)
                 {
                     fin = DateTime.Now;
                 }
-                else if (DateTime.Compare(fResultado[i].HoraSalida, dtpFin.Value)>0)//compruebo si la hora del fichaje está fuera del intervalo
+                else if (DateTime.Compare(fResultado[i].HoraSalida, dtpFin.Value)>0)
                 {
                     fin = dtpFin.Value;
                 }
@@ -186,7 +182,7 @@ namespace ActEv6
                 {
                     fin = fResultado[i].HoraSalida;
                 }
-                if (!fResultado[i].FichadoSalida)//compruebo si no ha fichado de salida
+                if (!fResultado[i].FichadoSalida)
                
                 res = RestaHoras(inicio, fin);
                 
@@ -196,6 +192,7 @@ namespace ActEv6
                 listaSegundos.Add(res[3]);
             }
 
+            //Ajuste de minutos y segundos para que no pasen de 60
             for (int i = 0; i < fResultado.Count; i++)
             {
                 dias += listaDias[i];
@@ -250,6 +247,12 @@ namespace ActEv6
             this.Dispose();
         }
 
+        /// <summary>
+        /// Obtiene la diferencia de tiempo entre dos fechas
+        /// </summary>
+        /// <param name="inicio">Fecha de inicio</param>
+        /// <param name="fin">Fecha final</param>
+        /// <returns>Array de 4 elementos en el que el primero son los dias, el segundo las horas, el tercero los minutos y el cuarto los segundos</returns>
         private int[] RestaHoras(DateTime inicio, DateTime fin)
         {
             int dia1;
