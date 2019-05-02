@@ -51,13 +51,13 @@ namespace ActEv6
                 
             }
 
-            MessageBox.Show("l" + Usuario.ComprobarLetraNif(txtNif.Text));
-            MessageBox.Show("u" + Usuario.BuscaUsuario(bdactevalu.Conexion, consultaBuscarUsuario).Count);
-            MessageBox.Show("f" + Fichaje.BuscaFichajes(bdactevalu.Conexion, consultaBuscarFichaje).Count);
-            if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion, consultaBuscarUsuario).Count==1 && Fichaje.BuscaFichajes(bdactevalu.Conexion,consultaBuscarFichaje).Count==0)
+            if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion, consultaBuscarUsuario).Count == 1 && Fichaje.BuscaFichajes(bdactevalu.Conexion, consultaBuscarFichaje).Count == 0)
             {
                 Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
-                MessageBox.Show(Convert.ToString(Fichaje.FichajeEntrada(bdactevalu.Conexion, fichaje)));
+                if(Fichaje.FichajeEntrada(bdactevalu.Conexion, fichaje)==1)
+                {
+                    MessageBox.Show("Fichaje realizado con exito");
+                }
             }
             else
             {
@@ -83,18 +83,21 @@ namespace ActEv6
             if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion, consultaBuscarUsuario).Count == 1 && Fichaje.BuscaFichajes(bdactevalu.Conexion, consultaBuscarFichaje).Count == 1)
             {
                 Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
-                MessageBox.Show(Convert.ToString(Fichaje.FichajeSalida(bdactevalu.Conexion, txtNif.Text)));
+                if(Fichaje.FichajeSalida(bdactevalu.Conexion, txtNif.Text)==1)
+                {
+                    MessageBox.Show("Fichaje realizado con exito");
+                }
             }
             else
             {
-                MessageBox.Show("NIF incorrecto");
+                MessageBox.Show("ERROR");
             }
             bdactevalu.CerrarConexion();
         }
 
         private void btnPresencia_Click(object sender, EventArgs e)
         {
-            string consulta = string.Format("SELECT nombre,apellido,horaEntrada FROM empleados INNER JOIN fichajes ON horaEntrada IS NOT NULL and horaSalida like '{0}';",DateTime.MinValue.ToString());
+            string consulta = string.Format("SELECT e.nombre,e.apellido,f.horaEntrada FROM empleados e inner JOIN fichajes f ON f.NIFempleado=e.NIF WHERE fichadoSalida=0;");
             try
             {
                 bdactevalu.AbrirConexion();
@@ -130,7 +133,7 @@ namespace ActEv6
             bdactevalu.CerrarConexion();
         }
 
-        private void btnPermanencia_Click(object sender, EventArgs e) 
+        private void btnPermanencia_Click(object sender, EventArgs e)
         {
             try
             {
@@ -150,85 +153,69 @@ namespace ActEv6
             List<int> listaHoras = new List<int>();//Lista de horas de cada fichaje
             List<int> listaMinutos = new List<int>();//Lista de minutos de cada fichaje
             List<int> listaSegundos = new List<int>();//Lista de segundos de cada fichaje
-            DateTime inicio;//Fecha de inicio del intervalo
-            DateTime fin;//Fecha de fin del intervalo
             int[] res = new int[4];//Array para guardar el resultado del método restaHoras
-            for (int i = 0; i < fichajes.Count; i++)
+            if (DateTime.Compare(dtpInicio.Value, dtpFin.Value) >= 0)
             {
-                if (DateTime.Compare(fichajes[i].HoraEntrada,dtpFin.Value) <=0|| DateTime.Compare(fichajes[i].HoraSalida,dtpInicio.Value)>=0)//obtengo los fichajes que estén en parte dentro del intervalo de fechas
-                {
-                    fResultado.Add(fichajes[i]);
-                }
+                MessageBox.Show("Intervalo de fechas no válido");
             }
+            else
+            {
+                for (int i = 0; i < fichajes.Count; i++)
+                {
+                    if (DateTime.Compare(fichajes[i].HoraEntrada, dtpInicio.Value) >= 0 && DateTime.Compare(fichajes[i].HoraSalida, dtpFin.Value) <= 0 && fichajes[i].FichadoSalida)//obtengo los fichajes que estén dentro del intervalo de fechas
+                    {
+                        fResultado.Add(fichajes[i]);
+                    }
+                }
 
-            for (int i = 0; i < fResultado.Count; i++)
-            {
-                //Comprobaciones necesarias para saber el intervalo de fechas a utilizar
-                if (DateTime.Compare(fResultado[i].HoraEntrada, dtpInicio.Value)>=0)
+                for (int i = 0; i < fResultado.Count; i++)
                 {
-                    inicio = fResultado[i].HoraEntrada;
-                }
-                else
-                {
-                    inicio = dtpInicio.Value;
-                }
-                if (!fResultado[i].FichadoSalida)
-                {
-                    fin = DateTime.Now;
-                }
-                else if (DateTime.Compare(fResultado[i].HoraSalida, dtpFin.Value)>0)
-                {
-                    fin = dtpFin.Value;
-                }
-                else
-                {
-                    fin = fResultado[i].HoraSalida;
-                }
-               
-                res = RestaHoras(inicio, fin);
-                
-                listaDias.Add(res[0]);
-                listaHoras.Add(res[1]);
-                listaMinutos.Add(res[2]);
-                listaSegundos.Add(res[3]);
-            }
+                    res = RestaHoras(fichajes[i].HoraEntrada, fichajes[i].HoraSalida);
 
-            //Ajuste de minutos y segundos para que no pasen de 60
-            for (int i = 0; i < fResultado.Count; i++)
-            {
-                dias += listaDias[i];
-                horas += listaHoras[i];
-                minutos += listaMinutos[i];
-                if (segundos>=60)
-                {
-                    segundos -= 60;
-                    minutos++;
+                    listaDias.Add(res[0]);
+                    listaHoras.Add(res[1]);
+                    listaMinutos.Add(res[2]);
+                    listaSegundos.Add(res[3]);
                 }
-                if (minutos>=60)
-                {
-                    minutos -= 60;
-                    horas++;
-                }
-                while (dias > 0)
-                {
-                    dias--;
-                    horas += 24;
-                }
-            }
-            dtgInfo.Columns.Clear();
-            dtgInfo.Columns.Add("id", "ID");
-            dtgInfo.Columns.Add("NIFempleado", "NIF empleado");
-            dtgInfo.Columns.Add("dia", "dia");
-            dtgInfo.Columns.Add("horaEntrada", "Hora de entrada");
-            dtgInfo.Columns.Add("horaSalida", "Hora de salida");
-            dtgInfo.Columns.Add("TiempoFichaje", "Duración");
 
-            MessageBox.Show(Convert.ToString(fResultado.Count) + " " + Convert.ToString(listaDias.Count) + " " + Convert.ToString(listaHoras.Count) + " " + Convert.ToString(listaMinutos.Count) + " " + Convert.ToString(listaSegundos.Count) + " ");
-            for (int i = 0; i < fResultado.Count; i++)
-            {
-                dtgInfo.Rows.Add(fResultado[i].Id, fResultado[i].NifEmpleado, fResultado[i].Dia, fResultado[i].HoraEntrada, fResultado[i].HoraSalida, listaDias[i]+" d, "+listaHoras[i]+" h, "+listaMinutos[i]+" min, "+listaSegundos[i]+" s");
+                //Ajuste de minutos y segundos para que no pasen de 60
+                for (int i = 0; i < fResultado.Count; i++)
+                {
+                    dias += listaDias[i];
+                    horas += listaHoras[i];
+                    minutos += listaMinutos[i];
+                    segundos += listaSegundos[i];
+                    if (segundos >= 60)
+                    {
+                        segundos -= 60;
+                        minutos++;
+                    }
+                    if (minutos >= 60)
+                    {
+                        minutos -= 60;
+                        horas++;
+                    }
+                    while (dias > 0)
+                    {
+                        dias--;
+                        horas += 24;
+                    }
+                }
+                dtgInfo.Columns.Clear();
+                dtgInfo.Columns.Add("id", "ID");
+                dtgInfo.Columns.Add("NIFempleado", "NIF empleado");
+                dtgInfo.Columns.Add("dia", "dia");
+                dtgInfo.Columns.Add("horaEntrada", "Hora de entrada");
+                dtgInfo.Columns.Add("horaSalida", "Hora de salida");
+                dtgInfo.Columns.Add("TiempoFichaje", "Duración");
+
+                for (int i = 0; i < fResultado.Count; i++)
+                {
+                    dtgInfo.Rows.Add(fResultado[i].Id, fResultado[i].NifEmpleado, fResultado[i].Dia, fResultado[i].HoraEntrada, fResultado[i].HoraSalida, listaDias[i] + " d, " + listaHoras[i] + " h, " + listaMinutos[i] + " min, " + listaSegundos[i] + " s");
+                }
+                MessageBox.Show("El tiempo total de fichajes es: " + horas + "h " + minutos + "min " + segundos + "s");
             }
-            MessageBox.Show("El tiempo total de fichajes es: " + horas + "h " + minutos + "min " + segundos + "s");
+            
             bdactevalu.CerrarConexion();
         }
 
@@ -255,8 +242,6 @@ namespace ActEv6
             }
             bdactevalu.CerrarConexion();
         }
-
-
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -289,7 +274,7 @@ namespace ActEv6
 
             fecha1 = Convert.ToString(inicio);
             fecha2 = Convert.ToString(fin);
-
+            //obtengo la diferencia del tiempo entre fecha2 y fecha1 separado en dias, horas, minutos y segundos
             hora1 = Convert.ToInt16(Convert.ToString(fecha1[fecha1.Length - 7]));//No puedo pasar directamente de char a int, da valores extraños
             if (fecha1.Length==19)
             {
@@ -310,11 +295,11 @@ namespace ActEv6
             minutoRes = minuto2 - minuto1;
             horaRes = hora2 - hora1;
             diaRes = dia2 - dia1;
-            if (diaRes>1 || diaRes<0)
+            //ajusto los valores de las variables
+            if (diaRes>1 || diaRes<0)//ajuste de dia para cuando se cambia de mes
             {
                 diaRes = 1;
             }
-            MessageBox.Show("DiaRes " + diaRes);
 
             if (segundoRes < 0)
             {

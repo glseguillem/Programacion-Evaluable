@@ -18,9 +18,9 @@ namespace ActEv6
         {
             InitializeComponent();
             ListaUsuarios();
+            ListaFichaje();
+            txtClave.Enabled = chkAdmin.Checked;
         }
-
-
 
         private void lblNIF_Click(object sender, EventArgs e)
         {
@@ -63,17 +63,6 @@ namespace ActEv6
                 errorProvider1.Clear();
             }
 
-            if(chkAdmin.Checked){
-                if (txtClave.Text == "")
-                {
-                    ok = false;
-                    errorProvider1.SetError(txtNIF, "Este campo es obligatorio para crear un usuario administrador");
-                }
-                else
-                {
-                    errorProvider1.Clear();
-                }
-            }
             return ok;
             
         }
@@ -82,7 +71,7 @@ namespace ActEv6
         {
             try
             {
-                if (bdactevalu.AbrirConexion())
+                if (bdactevalu.AbrirConexion() && ValidarDatos())
                 {
                     bool admi;
                     string consulta = string.Format("SELECT * FROM empleados WHERE nombre LIKE ('{0}') and apellido LIKE ('{1}');"
@@ -173,11 +162,17 @@ namespace ActEv6
             {
                 Application.Exit();
             }
-            this.Close();
-            this.Dispose();
+            else
+            {
+                this.Close();
+                this.Dispose();
+            }
+            
             
         }
-
+        /// <summary>
+        /// Añade toda la información de los usuarios al datagreed
+        /// </summary>
         private void ListaUsuarios()
         {
             string consulta = "Select * from empleados;";
@@ -194,6 +189,9 @@ namespace ActEv6
             bdactevalu.CerrarConexion();
         }
 
+        /// <summary>
+        /// Añade toda la información de los fichajes al datagreed
+        /// </summary>
         private void ListaFichaje()
         {
             string consulta = "Select * from fichajes;";

@@ -38,7 +38,6 @@
             this.btnPresencia = new System.Windows.Forms.Button();
             this.btnSalida = new System.Windows.Forms.Button();
             this.txtNif = new System.Windows.Forms.TextBox();
-            this.btnCerrar = new System.Windows.Forms.Button();
             this.dtgInfo = new System.Windows.Forms.DataGridView();
             this.lblNif = new System.Windows.Forms.Label();
             this.dtpInicio = new System.Windows.Forms.DateTimePicker();
@@ -145,16 +144,6 @@
             this.txtNif.Size = new System.Drawing.Size(197, 41);
             this.txtNif.TabIndex = 8;
             // 
-            // btnCerrar
-            // 
-            this.btnCerrar.Image = global::ActEv6.Properties.Resources.cancelar;
-            this.btnCerrar.Location = new System.Drawing.Point(12, 391);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(36, 43);
-            this.btnCerrar.TabIndex = 0;
-            this.btnCerrar.UseVisualStyleBackColor = true;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
-            // 
             // dtgInfo
             // 
             this.dtgInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -238,7 +227,6 @@
             this.Controls.Add(this.dtpInicio);
             this.Controls.Add(this.lblNif);
             this.Controls.Add(this.dtgInfo);
-            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.txtNif);
             this.Controls.Add(this.btnSalida);
             this.Controls.Add(this.btnPresencia);
@@ -269,7 +257,6 @@
         private System.Windows.Forms.Button btnPresencia;
         private System.Windows.Forms.Button btnSalida;
         private System.Windows.Forms.TextBox txtNif;
-        private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.DataGridView dtgInfo;
         private System.Windows.Forms.Label lblNif;
         private System.Windows.Forms.DateTimePicker dtpInicio;
