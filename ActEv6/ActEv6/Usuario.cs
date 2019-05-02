@@ -64,7 +64,7 @@ namespace ActEv6
         /// <summary>
         /// Comprueba si la letra del nif es correcta
         /// </summary>
-        /// <param name="nif">Nif a vomprobar</param>
+        /// <param name="nif">Nif a comprobar</param>
         /// <returns>true si es correcta, false en el caso contrario</returns>
         public static bool ComprobarLetraNif(string nif)
         {
@@ -75,14 +75,14 @@ namespace ActEv6
 
                 string letras = "TRWAGMYFPDXBNJZSQVHLCKE";
 
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     nifAux += nif[i];
                 }
 
                 try//Si numerosNif no se puede convertir a int daría error
                 {
-                    numerosNif = Convert.ToInt16(nifAux);
+                    numerosNif = Convert.ToInt32(nifAux);
                     if (letras[numerosNif % 23] == nif[8])
                     {
                         return true;
@@ -120,7 +120,7 @@ namespace ActEv6
                 while (reader.Read())
                 {
                     Usuario user = new Usuario(reader.GetString(0), reader.GetString(1), reader.GetString(2),
-                        reader.GetBoolean(3));
+                        reader.GetBoolean(3), reader.GetString(4));
                     lista.Add(user);
                 }
             }

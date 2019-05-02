@@ -30,7 +30,6 @@ C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.pdb
 C:\Users\glsegu\Documents\Programacion-Evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.frmBasico.resources
 C:\Users\rumalo01\Documents\actEv6\ActEv6\ActEv6\obj\Debug\ActEv6.csprojAssemblyReference.cache
-C:\Users\rumalo01\Documents\actEv6\ActEv6\ActEv6\obj\Debug\ActEv6.frmBasico.resources
 C:\Users\rumalo01\Documents\actEv6\ActEv6\ActEv6\obj\Debug\ActEv6.frmMantenimiento.resources
 C:\Users\rumalo01\Documents\actEv6\ActEv6\ActEv6\obj\Debug\ActEv6.Properties.Resources.resources
 C:\Users\rumalo01\Documents\actEv6\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.GenerateResource.cache
@@ -86,3 +85,4 @@ C:\Users\Glorieta\Desktop\programacion act evaluable\ActEv6\ActEv6\obj\Debug\Act
 C:\Users\Glorieta\Desktop\programacion act evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.csproj.CopyComplete
 C:\Users\Glorieta\Desktop\programacion act evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.exe
 C:\Users\Glorieta\Desktop\programacion act evaluable\ActEv6\ActEv6\obj\Debug\ActEv6.pdb
+C:\Users\rumalo01\Documents\actEv6\ActEv6\ActEv6\obj\Debug\ActEv6.s.resources

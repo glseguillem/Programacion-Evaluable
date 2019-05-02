@@ -40,8 +40,8 @@ namespace ActEv6
 
         private void btnEntrada_Click(object sender, EventArgs e)
         {
-            string consultaBuscarUsuario = string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';",txtNif.Text);//Consulta para comprobar si el usuario existe
-            string consultaBuscarFichaje = string.Format("SELECT * FROM fichajes WHERE NIFEmpleado LIKE '{0}' AND fichadoSalida LIKE 0",txtNif.Text);//Consulta para comprobar si su ultimo fichaje es de entrada o salida
+            string consultaBuscarUsuario = string.Format("SELECT * FROM empleados WHERE NIF LIKE '{0}';",txtNif.Text);//Consulta para comprobar si el usuario existe
+            string consultaBuscarFichaje = string.Format("SELECT * FROM fichajes WHERE NIFempleado LIKE '{0}' AND fichadoSalida LIKE 0",txtNif.Text);//Consulta para comprobar si su ultimo fichaje es de entrada o salida
             try
             {
                 bdactevalu.AbrirConexion();
@@ -51,23 +51,25 @@ namespace ActEv6
                 
             }
 
-
-            //if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1 && Fichaje.BuscaFichajes(bdactevalu.conexion,consultaBuscarFichaje).Count==0)
-            //{
+            MessageBox.Show("l" + Usuario.ComprobarLetraNif(txtNif.Text));
+            MessageBox.Show("u" + Usuario.BuscaUsuario(bdactevalu.Conexion, consultaBuscarUsuario).Count);
+            MessageBox.Show("f" + Fichaje.BuscaFichajes(bdactevalu.Conexion, consultaBuscarFichaje).Count);
+            if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion, consultaBuscarUsuario).Count==1 && Fichaje.BuscaFichajes(bdactevalu.Conexion,consultaBuscarFichaje).Count==0)
+            {
                 Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
                 MessageBox.Show(Convert.ToString(Fichaje.FichajeEntrada(bdactevalu.Conexion, fichaje)));
-            //}
-            //else
-            //{
-            //    MessageBox.Show("ERROR");
-            //}
+            }
+            else
+            {
+                MessageBox.Show("ERROR");
+            }
             bdactevalu.CerrarConexion();
         }
 
         private void btnSalida_Click(object sender, EventArgs e)
         {
 
-            string consultaBuscarUsuario = string.Format("SELECT * FROM usuarios WHERE NIF LIKE '{0}';", txtNif.Text);
+            string consultaBuscarUsuario = string.Format("SELECT * FROM empleados WHERE NIF LIKE '{0}';", txtNif.Text);
             string consultaBuscarFichaje = string.Format("SELECT * FROM fichajes WHERE NIFEmpleado LIKE '{0}' AND fichadoSalida LIKE 0", txtNif.Text);
 
             try
@@ -78,15 +80,15 @@ namespace ActEv6
             {
 
             }
-            //if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion,consulta).Count==1 && Fichaje.BuscaFichajes(bdactevalu.conexion,consultaBuscarFichaje).Count==1)
-            //{
+            if (Usuario.ComprobarLetraNif(txtNif.Text) && Usuario.BuscaUsuario(bdactevalu.Conexion, consultaBuscarUsuario).Count == 1 && Fichaje.BuscaFichajes(bdactevalu.Conexion, consultaBuscarFichaje).Count == 1)
+            {
                 Fichaje fichaje = new Fichaje(txtNif.Text, DateTime.Now.Date, DateTime.Now);
                 MessageBox.Show(Convert.ToString(Fichaje.FichajeSalida(bdactevalu.Conexion, txtNif.Text)));
-            //}
-            //else
-            //{
-            //    MessageBox.Show("NIF incorrecto");
-            //}
+            }
+            else
+            {
+                MessageBox.Show("NIF incorrecto");
+            }
             bdactevalu.CerrarConexion();
         }
 
@@ -232,11 +234,26 @@ namespace ActEv6
 
         private void btnMantenimiento_Click(object sender, EventArgs e)
         {
-            //if (Usuario.BuscaUsuario(bdactevalu.Conexion,"SELECT * FROM usuarios WHERE NIF LIKE "+txtNif.Text+" AND claveAdmin LIKE "+txtContrasenya.Text+" AND administrador LIKE 0").Count==1)
-            //{
+            try
+            {
+                bdactevalu.AbrirConexion();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            string consulta = string.Format("SELECT * FROM empleados WHERE NIF LIKE '{0}' AND claveAdmin LIKE '{1}' AND administrador = 1", txtNif.Text, txtContrasenya.Text);
+            if (Usuario.BuscaUsuario(bdactevalu.Conexion, consulta).Count == 1)
+            {
                 frmMantenimiento mantenimiento = new frmMantenimiento();
                 mantenimiento.ShowDialog();
-            //}
+            }
+            else
+            {
+                MessageBox.Show("Datos incorrectos");
+            }
+            bdactevalu.CerrarConexion();
         }
 
 

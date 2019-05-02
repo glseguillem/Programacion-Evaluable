@@ -98,7 +98,6 @@ namespace ActEv6
                             admi = false;
                         }
                         Usuario usu = new Usuario(txtNIF.Text,txtNombre.Text,txtApellido.Text,admi,txtClave.Text);
-                        MessageBox.Show(txtNIF.Text);
                         Usuario.AñadirUsuario(bdactevalu.Conexion, usu);
                         ListaUsuarios();
                     }
@@ -119,7 +118,7 @@ namespace ActEv6
             }
         }
 
-        private void bntEliminar_Click(object sender, EventArgs e) //ya funciona :D
+        private void bntEliminar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -168,8 +167,15 @@ namespace ActEv6
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
+            
+            DialogResult respuesta=MessageBox.Show("Cerrar aplicacion?", "Cerrar", MessageBoxButtons.YesNo);
+            if (respuesta==DialogResult.Yes)
+            {
+                Application.Exit();
+            }
             this.Close();
             this.Dispose();
+            
         }
 
         private void ListaUsuarios()

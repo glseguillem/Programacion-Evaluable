@@ -71,14 +71,10 @@ namespace ActEv6
         /// <param name="conexion">Conexión a la base de datos</param>
         /// <param name="nif">Nif del empleado</param>
         /// <returns>Número de registros afectados</returns>
-        public static int FichajeSalida(MySqlConnection conexion, string nif)//falta cambiar consulta
+        public static int FichajeSalida(MySqlConnection conexion, string nif)
         {
             int resultado;
             string consulta;
-            // UPDATE nombretabla SET nombrecampo = valorcampo WHERE condiciones;
-            // UPDATE fichajes SET fichadoEntrada=true(0)  WHERE fichadoSalida=false(0)
-            //UPDATE fichajes SET fichadoSalida= false(1) Where fichadoSalida = true(0);
-            //"UPDATE fichajes SET fichadoSalida = 1 AND SET horaSalida = '{0}' WHERE NIFempleado LIKE '{1}' AND fichadoSalida LIKE 0);", DateTime.Now, nif
             consulta = string.Format("UPDATE fichajes SET fichadoSalida=1,horaSalida='{0}' WHERE fichadoSalida = 0 AND NIFempleado = '{1}';", DateTime.Now, nif); 
 
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
