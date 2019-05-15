@@ -215,7 +215,6 @@ namespace ActEv6
                 }
                 MessageBox.Show("El tiempo total de fichajes es: " + horas + "h " + minutos + "min " + segundos + "s");
             }
-            
             bdactevalu.CerrarConexion();
         }
 

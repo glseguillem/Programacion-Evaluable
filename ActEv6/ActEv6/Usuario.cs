@@ -120,7 +120,11 @@ namespace ActEv6
                 while (reader.Read())
                 {
                     Usuario user = new Usuario(reader.GetString(0), reader.GetString(1), reader.GetString(2),
-                        reader.GetBoolean(3), reader.GetString(4));
+                        reader.GetBoolean(3));
+                    if (user.Administrador)
+                    {
+                        user.ContrasenyaAdministrador=reader.GetString(4);
+                    }
                     lista.Add(user);
                 }
             }

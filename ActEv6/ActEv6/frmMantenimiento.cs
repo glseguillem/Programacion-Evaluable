@@ -74,9 +74,10 @@ namespace ActEv6
                 if (bdactevalu.AbrirConexion() && ValidarDatos())
                 {
                     bool admi;
-                    string consulta = string.Format("SELECT * FROM empleados WHERE nombre LIKE ('{0}') and apellido LIKE ('{1}');"
-                        , txtNombre.Text, txtApellido.Text);
-                    if (Usuario.BuscaUsuario(bdactevalu.Conexion, consulta).Count == 0)
+                    string consulta = string.Format("SELECT * FROM empleados WHERE NIF LIKE ('{0}');"
+                        , txtNIF.Text);
+                  
+                    if (Usuario.BuscaUsuario(bdactevalu.Conexion, consulta).Count==0 && Usuario.ComprobarLetraNif(txtNIF.Text))
                     {
                         if (chkAdmin.Checked)
                         {
@@ -92,7 +93,7 @@ namespace ActEv6
                     }
                     else
                     {
-                        MessageBox.Show("Este usuario no se puede dar de alta. Ya existe");
+                        MessageBox.Show("Este usuario no se puede dar de alta, ss posible que ya exista o el nif sea incorrecto ");
                     }
                     
                 }
@@ -101,10 +102,9 @@ namespace ActEv6
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
+            
                 bdactevalu.CerrarConexion();
-            }
+            
         }
 
         private void bntEliminar_Click(object sender, EventArgs e)
@@ -116,7 +116,6 @@ namespace ActEv6
 
                 if (dtgUsuarios.SelectedRows.Count == 1)
                 {
-                    MessageBox.Show("Fila seleccionada");
                     string nif = (string)dtgUsuarios.CurrentRow.Cells[0].Value;
 
                     DialogResult eliminacion = MessageBox.Show("¿Estas seguro que quieres borrar? también se eliminará toda la información de los fichajes de este usuario",
@@ -136,16 +135,14 @@ namespace ActEv6
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
+            
                 bdactevalu.CerrarConexion();
-            }
+            
         }
 
         private void btnInformes_Click(object sender, EventArgs e)
